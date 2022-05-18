@@ -1,0 +1,44 @@
+@import url("~vis/dist/vis.min.css");
+
+body {
+  position: relative;
+  color: white;
+  height: 100vh;
+  background: linear-gradient(
+    200.96deg,
+    #352c00 -29.09%,
+    #313b69 51.77%,
+    #2d1439 129.35%
+  );
+  font-family: sans-serif;
+  overflow-y: hidden;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+}
+
+.air-form {
+  background-color: rgba(0, 0, 0, 0) !important;
+  border: none !important;
+  outline: none !important;
+  box-shadow: none !important;
+}
+
+.air-button {
+  background-color: rgba(0, 0, 0, 0) !important;
+  border: none !important;
+  outline: none !important;
+  box-shadow: none !important;
+}
+
+.air-button:hover {
+  background-color: rgba(81, 91, 94, 0.614) !important;
+  border: none !important;
+  outline: none !important;
+  box-shadow: none !important;
+}
+/*
+Yeah, I don't think I need this 
+.vis-network {
+  overflow: visible;
+} */

@@ -1,0 +1,17 @@
+[
+  {
+    "name": "Fusion",
+    "description": "Long hailed as a panacea of an energy rich future fusion releases immense harnessing differences in per nucleon binding energies.",
+    "prerequisites": []
+  },
+  {
+    "name": "Compact Fusion",
+    "description": "Advancements in fusion technology have made it possible to produce fusion reactors capable of fitting on spacecraft. With this massive increase in availability of power things which once seemed untenable are now possible.",
+    "prerequisites": ["Fusion"]
+  },
+  {
+    "name": "Aneutronic Fusion",
+    "description": "While initially presenting increased engineering challenges aneutronic fusion has proved superior from a safety and simplicity perspective helping drive adoption of fusion reactors.",
+    "prerequisites": ["Fusion"]
+  }
+]
