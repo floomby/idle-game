@@ -87,7 +87,7 @@ export function TechTree() {
 
   return (
     <div>
-      <h3 className="text-center">Tech Tree</h3>
+      <h3 className="text-center">Technology</h3>
       <div
         style={{
           // width: "50vw",

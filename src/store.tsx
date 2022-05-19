@@ -3,6 +3,8 @@ import playerReducer from "./redux/playerSlice";
 import resourcesReducer from "./redux/resourcesSlice";
 import gameStateReducer from "./redux/gameStateSlice";
 import techReducer from "./redux/techSlice";
+import capitalReducer from "./redux/capitalSlice";
+import newsReducer from "./redux/newsSlice";
 
 export const store = configureStore({
   reducer: {
@@ -10,6 +12,8 @@ export const store = configureStore({
     resources: resourcesReducer,
     gameState: gameStateReducer,
     tech: techReducer,
+    capital: capitalReducer,
+    news: newsReducer,
   },
 });
 

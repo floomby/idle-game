@@ -7,8 +7,10 @@ import { GameStates } from "./redux/gameStateSlice";
 import { TechTree } from "./components/TechTree";
 import { Capital } from "./components/Capital";
 import { Container, Row, Col } from "react-bootstrap";
+import { News } from "./components/News";
 
 import "../node_modules/bootstrap/dist/css/bootstrap.min.css";
+import { GameLoop } from "./components/GameLoop";
 
 export function App() {
   const gameState = useSelector((state: RootState) => state.gameState.phase);
@@ -20,6 +22,10 @@ export function App() {
           style={{ width: "100vw", marginLeft: "0", marginRight: "0" }}
           fluid
         >
+          <Row className="mb-2">
+            <News />
+            <br/>
+          </Row>
           <Row>
             <Col md={6}>
               <TechTree />
@@ -29,6 +35,7 @@ export function App() {
             </Col>
           </Row>
           <ResourcesDisplay />
+          <GameLoop />
         </Container>
       ) : (
         <Intro />

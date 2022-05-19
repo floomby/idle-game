@@ -11,8 +11,8 @@ import { useTransition, config as springConfig, animated } from "react-spring";
 
 // Something like this (I still don't know what the story or the gameplay are exactly)
 const story = [
-  `Continuous, accelerating advancements in technology has brought earth to the point where a sizable orbital infrastructure has began to build up. There is a constant need for raw materials to construct this infrastructure. For the continuing construction resources will need to be sourced from elsewhere in the solar system. The moon and near earth asteroids are the first targets for these expanding resource gathering operations.`,
-  `You are a businessman who has recently taken control of earths leading private space company. This is a cutthroat business, and you must be aggressive to maintain your position. Small early advantages can have outsized impacts on the future, or so your economists tell you.`,
+  `...Something, something, engaging story, something...`,
+  `You are a entrepreneur who has recently started a space company.`,
 ];
 
 export default function Story(props: { index: number }) {

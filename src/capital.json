@@ -1,0 +1,14 @@
+[
+  {
+    "name": "scientists",
+    "cost": {
+      "dollars": 100
+    }
+  },
+  {
+    "name": "light_rockets",
+    "cost": {
+      "dollars": 10000
+    }
+  }
+]
