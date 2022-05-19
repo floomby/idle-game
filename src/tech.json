@@ -1,17 +1,58 @@
 [
   {
     "name": "Fusion",
-    "description": "Long hailed as a panacea of an energy rich future fusion releases immense harnessing differences in per nucleon binding energies.",
-    "prerequisites": []
+    "description": "Long hailed as a panacea of an energy rich future fusion releases immense energy by harnessing differences in per nucleon binding energies.",
+    "prerequisites": [],
+    "x": 0,
+    "y": 0,
+    "hardness": 10
+  },
+  {
+    "name": "Orbital Infrastructure I",
+    "description": "Despite the obvious downsides with orbital construction there are certain advantages. Many structural challenges that would be faced terrestrial structures can be ignored.",
+    "prerequisites": [],
+    "x": 0,
+    "y": 200,
+    "hardness": 10
+  },
+  {
+    "name": "Orbital Infrastructure II",
+    "description": "Construction of orbital infrastructure is a self reinforcing process. It becomes a logistical endeavor rather than an technological one. Organizing the vast army of orbital machinery to create structures unimaginable under the constraints of gravity.",
+    "prerequisites": ["Orbital Infrastructure I"],
+    "x": 150,
+    "y": 200,
+    "hardness": 10
   },
   {
     "name": "Compact Fusion",
     "description": "Advancements in fusion technology have made it possible to produce fusion reactors capable of fitting on spacecraft. With this massive increase in availability of power things which once seemed untenable are now possible.",
-    "prerequisites": ["Fusion"]
+    "prerequisites": ["Fusion"],
+    "x": 150,
+    "y": 0,
+    "hardness": 10
   },
   {
     "name": "Aneutronic Fusion",
     "description": "While initially presenting increased engineering challenges aneutronic fusion has proved superior from a safety and simplicity perspective helping drive adoption of fusion reactors.",
-    "prerequisites": ["Fusion"]
+    "prerequisites": ["Fusion"],
+    "x": 150,
+    "y": 100,
+    "hardness": 10
+  },
+  {
+    "name": "Nuclear Transmutation I",
+    "description": "The ability to transmute matter into more desirable elements proves to be a great benefit to the industrial sector.",
+    "prerequisites": ["Aneutronic Fusion"],
+    "x": 300,
+    "y": 100,
+    "hardness": 10
+  },
+  {
+    "name": "Nuclear Transmutation II",
+    "description": "Using accelerators in orbit on a grand scale nuclear transmutation is now much more efficient.",
+    "prerequisites": ["Nuclear Transmutation I", "Orbital Infrastructure II"],
+    "x": 450,
+    "y": 100,
+    "hardness": 10
   }
 ]

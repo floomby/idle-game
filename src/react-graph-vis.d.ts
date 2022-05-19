@@ -11,7 +11,7 @@ declare module "react-graph-vis" {
   //Doesn't appear that this module supports passing in a vis.DataSet directly. Once it does graph can just use the Data object from vis.
   export interface graphData {
     nodes: Node[];
-    edges: Edge[];
+    links: Edge[];
   }
 
   export interface NetworkGraphProps {

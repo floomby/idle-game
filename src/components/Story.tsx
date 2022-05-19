@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useCallback } from "react";
 import {
   GameStates,
   setGameState,
@@ -11,7 +11,7 @@ import { useTransition, config as springConfig, animated } from "react-spring";
 
 // Something like this (I still don't know what the story or the gameplay are exactly)
 const story = [
-  `Continuous, accelerating advancements in aerospace technology has brought earth to the point where a sizable orbital infrastructure has began to build up. There is a constant need for raw materials to construct this infrastructure. For the continuing construction resources will need to be sourced from elsewhere in the solar system. The moon and near earth asteroids are the first targets for these expanding resource gathering operations.`,
+  `Continuous, accelerating advancements in technology has brought earth to the point where a sizable orbital infrastructure has began to build up. There is a constant need for raw materials to construct this infrastructure. For the continuing construction resources will need to be sourced from elsewhere in the solar system. The moon and near earth asteroids are the first targets for these expanding resource gathering operations.`,
   `You are a businessman who has recently taken control of earths leading private space company. This is a cutthroat business, and you must be aggressive to maintain your position. Small early advantages can have outsized impacts on the future, or so your economists tell you.`,
 ];
 
@@ -26,20 +26,20 @@ export default function Story(props: { index: number }) {
     config: springConfig.gentle,
   });
 
-  const advance = () => {
+  const advance = useCallback(() => {
     if (gameState.dialogIndex === story.length - 1) {
       dispatch(setGameState(GameStates.Playing));
     } else {
       dispatch(advanceDialog());
     }
-  };
+  }, [dispatch, gameState.dialogIndex]);
 
   useEffect(() => {
     document.addEventListener("keydown", advance, false);
     return () => {
       document.removeEventListener("keydown", advance, false);
     };
-  }, []);
+  }, [advance]);
 
   return transition(({ opacity }, index) => (
     <>
