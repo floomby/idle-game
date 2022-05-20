@@ -1,0 +1,12 @@
+[
+  {
+    "name": "dollars",
+    "starting": 100000,
+    "prerequisites": []
+  },
+  {
+    "name": "aluminum",
+    "starting": 100000,
+    "prerequisites": ["Engineering I"]
+  }
+]

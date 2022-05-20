@@ -54,5 +54,29 @@
     "x": 450,
     "y": 100,
     "hardness": 10
+  },
+  {
+    "name": "Engineering I",
+    "description": "Engineering is fundamental to the application of any scientific advancements - the methodological tools to facilitate the application of theory.",
+    "prerequisites": [],
+    "x": 0,
+    "y": 300,
+    "hardness": 10
+  },
+  {
+    "name": "Rocketry I",
+    "description": "By propelling reaction mass in one direction acceleration can be achieved. This is allows vehicles to maneuver despite having no atmosphere.",
+    "prerequisites": [],
+    "x": 0,
+    "y": 400,
+    "hardness": 10
+  },
+  {
+    "name": "Computing I",
+    "description": "Computing is essential to rocketry. The calculations for trajectory and orbital mechanics require the use of computers.",
+    "prerequisites": [],
+    "x": 0,
+    "y": 500,
+    "hardness": 10
   }
 ]

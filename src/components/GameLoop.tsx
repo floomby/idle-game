@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { RootState } from "../store";
 import { useSelector, useDispatch } from "react-redux";
 import { capitalDelta } from "../redux/capitalSlice";
@@ -9,13 +9,15 @@ export function GameLoop() {
   const scientists = useSelector((state: RootState) => state.capital.values.scientists);
   const dispatch = useDispatch();
 
+  const [frame, setFrame] = useState(0);
   useEffect(() => {
     const interval = setInterval(() => {
       console.log("tick");
+      setFrame(frame + 1);
       dispatch(resourceDelta({ dollars: light_rockets[0] }));
     }, 1000);
     return () => clearInterval(interval);
-  }, [light_rockets, dispatch]);
+  }, [light_rockets, dispatch, frame]);
 
   return <></>;
 }

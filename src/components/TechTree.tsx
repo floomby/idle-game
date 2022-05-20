@@ -39,8 +39,12 @@ export function TechTree() {
   const graph = useSelector((state: RootState) => state.tech.graph);
   const dispatch = useDispatch();
 
+  const initialized = useRef(false);
   useEffect(() => {
-    dispatch(initTech());
+    if (!initialized.current) {
+      initialized.current = true;
+      dispatch(initTech());
+    }
   }, [dispatch]);
 
   // console.log(graph);
@@ -85,6 +89,9 @@ export function TechTree() {
     return () => clearInterval(interval);
   }, [hideTooltip]);
 
+  const height = 600;
+  const width = 960;
+
   return (
     <div>
       <h3 className="text-center">Technology</h3>
@@ -98,16 +105,20 @@ export function TechTree() {
         }}
         className="unselectable-text no-scrollbars"
       >
-        <svg width={1000} height={480} ref={containerRef}>
-          <rect width={1000} height={480} rx={14} fill={"#272b4d"} />
+        <svg width={width} height={height} ref={containerRef}>
+          <rect width={width} height={height} rx={14} fill={"#272b4d"} />
           <Graph<CustomLink, CustomNode>
             graph={graph}
             top={50}
             left={50}
-            nodeComponent={({ node: { color, name, x, y, description, completed, progress } }) => (
+            nodeComponent={({
+              node: { color, name, x, y, description, completed, progress },
+            }) => (
               <>
                 <DefaultNode
-                  fill={tinycolor(color || "#21D4FD").darken(40 * progress).toString()}
+                  fill={tinycolor(color || "#21D4FD")
+                    .darken(40 * progress)
+                    .toString()}
                   onMouseOver={(event: any) =>
                     handleMouseOver(event, description)
                   }
@@ -117,10 +128,12 @@ export function TechTree() {
                   }}
                 />
                 <text
-                  x={0}
-                  y={0}
-                  fill={ completed ? "green" : "black" }
-                  onMouseDown={() => dispatch(applyProgress({ tech: name, progress: 1 }))}
+                  x={-10}
+                  y={-5}
+                  fill={completed ? "green" : "black"}
+                  onMouseDown={() =>
+                    dispatch(applyProgress({ tech: name, progress: 1 }))
+                  }
                 >
                   {name}
                 </text>
@@ -147,9 +160,7 @@ export function TechTree() {
             top={tooltipTop}
             left={tooltipLeft}
           >
-            <div style={{ width: "20vw" }}>
-              {tooltipData as string}
-            </div>
+            <div style={{ width: "20vw" }}>{tooltipData as string}</div>
           </TooltipInPortal>
         )}
       </div>

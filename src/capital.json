@@ -3,12 +3,18 @@
     "name": "scientists",
     "cost": {
       "dollars": 100
-    }
+    },
+    "prerequisites": [
+      "Engineering I"
+    ]
   },
   {
     "name": "light_rockets",
     "cost": {
       "dollars": 10000
-    }
+    },
+    "prerequisites": [
+      "Rocketry I"
+    ]
   }
 ]
