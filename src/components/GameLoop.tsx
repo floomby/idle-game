@@ -5,7 +5,7 @@ import { capitalDelta } from "../redux/capitalSlice";
 import { resourceDelta } from "../redux/resourcesSlice";
 
 export function GameLoop() {
-  const light_rockets = useSelector((state: RootState) => state.capital.values.light_rockets);
+  const small_launch_vehicles = useSelector((state: RootState) => state.capital.values.small_launch_vehicles);
   const scientists = useSelector((state: RootState) => state.capital.values.scientists);
   const dispatch = useDispatch();
 
@@ -14,10 +14,10 @@ export function GameLoop() {
     const interval = setInterval(() => {
       console.log("tick");
       setFrame(frame + 1);
-      dispatch(resourceDelta({ dollars: light_rockets[0] }));
+      dispatch(resourceDelta({ dollars: small_launch_vehicles[0] }));
     }, 1000);
     return () => clearInterval(interval);
-  }, [light_rockets, dispatch, frame]);
+  }, [small_launch_vehicles, dispatch, frame]);
 
   return <></>;
 }

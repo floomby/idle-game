@@ -35,6 +35,11 @@ interface CustomLink {
   dashed?: boolean;
 }
 
+const multiLine = (text: string, threshold: number) => {
+  if (text.length > threshold) return text.replace(/ /, "\n");
+  return text;
+};
+
 export function TechTree() {
   const graph = useSelector((state: RootState) => state.tech.graph);
   const dispatch = useDispatch();
@@ -127,16 +132,21 @@ export function TechTree() {
                     dispatch(applyProgress({ tech: name, progress: 1 }));
                   }}
                 />
-                <text
-                  x={-10}
-                  y={-5}
-                  fill={completed ? "green" : "black"}
+                <foreignObject
+                  x={-30}
+                  y={-30}
+                  height={80}
+                  width={140}
                   onMouseDown={() =>
                     dispatch(applyProgress({ tech: name, progress: 1 }))
                   }
                 >
-                  {name}
-                </text>
+                  <div
+                    style={completed ? { color: "green" } : { color: "white" }}
+                  >
+                    <strong>{name}</strong>
+                  </div>
+                </foreignObject>
               </>
             )}
             linkComponent={({ link: { source, target, dashed } }) => (

@@ -5,8 +5,28 @@
     "prerequisites": []
   },
   {
-    "name": "aluminum",
+    "name": "steel",
     "starting": 100000,
+    "prerequisites": []
+  },
+  {
+    "name": "something",
+    "starting": 100000,
+    "prerequisites": []
+  },
+  {
+    "name": "something else",
+    "starting": 100000,
+    "prerequisites": []
+  },
+  {
+    "name": "aluminum",
+    "starting": 0,
     "prerequisites": ["Engineering I"]
+  },
+  {
+    "name": "silicon",
+    "starting": 0,
+    "prerequisites": ["Computing I"]
   }
 ]

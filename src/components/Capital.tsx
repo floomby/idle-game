@@ -1,4 +1,4 @@
-import React, { useMemo } from "react";
+import React, { useMemo, useState, useEffect } from "react";
 import { RootState } from "../store";
 import { useSelector, useDispatch } from "react-redux";
 import { capitalDelta, CapitalType } from "../redux/capitalSlice";
@@ -13,18 +13,24 @@ import {
 } from "react-bootstrap";
 import { addNews } from "../redux/newsSlice";
 import structuredClone from "@ungap/structured-clone";
+import { Modifiers, multiplierFromModifiers } from "../common";
 
 import capital from "../capital.json";
 
 const capitalData = new Map<
   string,
-  { cost: Record<string, number>; prerequisites: string[] }
+  {
+    cost: Record<string, number>;
+    prerequisites: string[];
+    description: string | undefined;
+  }
 >(
   capital.map((item) => [
     item.name,
     {
       cost: item.cost as Record<string, number>,
       prerequisites: item.prerequisites,
+      description: item.description,
     },
   ])
 );
@@ -37,7 +43,14 @@ const isUnlocked = (capitalType: CapitalType, tech: any) => {
 
 const ResourceTooltip = (props: { resources: Record<string, number> }) => {
   return (
-    <ul style={{ marginBottom: "0px" }}>
+    <ul
+      style={{
+        marginBottom: "0px",
+        listStyle: "none",
+        marginLeft: "-27px",
+        marginRight: "5px",
+      }}
+    >
       {Object.entries(props.resources).map(([key, value]) => {
         return (
           <li key={key}>
@@ -58,7 +71,10 @@ const costCovered = (
   });
 };
 
-const CapitalItem = (props: { capitalType: CapitalType }) => {
+const CapitalItem = (props: {
+  capitalType: CapitalType;
+  multiplier: number;
+}) => {
   const resources = useSelector((state: RootState) => state.resources.values);
   const tech = useSelector((state: RootState) => state.tech.values);
   const value = useSelector(
@@ -72,10 +88,10 @@ const CapitalItem = (props: { capitalType: CapitalType }) => {
       capitalData.get(props.capitalType)?.cost as Record<string, number>
     );
     Object.entries(ret).forEach(([key, value]) => {
-      ret[key as string] = -(value as number);
+      ret[key as string] = -(value as number) * props.multiplier;
     });
     return ret;
-  }, [props.capitalType]);
+  }, [props.capitalType, props.multiplier]);
 
   return (
     <>
@@ -84,17 +100,32 @@ const CapitalItem = (props: { capitalType: CapitalType }) => {
           <Row>
             <Col>
               <span>
-                <h6 style={{ marginTop: "10px" }}>
-                  <strong>
-                    {props.capitalType}: {value}
-                  </strong>
-                </h6>
+                <OverlayTrigger
+                  placement="right"
+                  trigger={
+                    capitalData.get(props.capitalType)?.description
+                      ? ["hover", "focus"]
+                      : []
+                  }
+                  delay={{ show: 200, hide: 150 }}
+                  overlay={
+                    <Tooltip>
+                      {capitalData.get(props.capitalType)?.description}
+                    </Tooltip>
+                  }
+                >
+                  <h6 style={{ marginTop: "10px" }}>
+                    <strong>
+                      {props.capitalType}: {value}
+                    </strong>
+                  </h6>
+                </OverlayTrigger>
               </span>
             </Col>
             <Col>
               <OverlayTrigger
-                placement="right"
-                delay={{ show: 250, hide: 400 }}
+                placement="left"
+                delay={{ show: 200, hide: 150 }}
                 overlay={
                   <Tooltip>
                     <ResourceTooltip resources={deltaResource} />
@@ -125,7 +156,14 @@ const CapitalItem = (props: { capitalType: CapitalType }) => {
   );
 };
 
-export function Capital() {
+export function Capital(props: { modifiers: Modifiers }) {
+  const [multiplier, setMultiplier] = useState(
+    multiplierFromModifiers(props.modifiers)
+  );
+  useEffect(() => {
+    setMultiplier(multiplierFromModifiers(props.modifiers));
+  }, [props.modifiers]);
+
   return (
     <>
       <h3 className="text-center">Capital</h3>
@@ -148,8 +186,11 @@ export function Capital() {
           }}
         >
           <br />
-          <CapitalItem capitalType="scientists" />
-          <CapitalItem capitalType="light_rockets" />
+          <CapitalItem capitalType="scientists" multiplier={multiplier} />
+          <CapitalItem
+            capitalType="small_launch_vehicles"
+            multiplier={multiplier}
+          />
         </div>
       </div>
     </>

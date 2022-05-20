@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
-type CapitalType = "scientists" | "light_rockets";
+type CapitalType = "scientists" | "small_launch_vehicles";
 
 export interface CapitalState {
   values: Record<CapitalType, [number, boolean]>;
@@ -9,7 +9,7 @@ export interface CapitalState {
 const initialState: CapitalState = {
   values: {
     scientists: [0, true],
-    light_rockets: [0, true],
+    small_launch_vehicles: [0, true],
   },
 };
 

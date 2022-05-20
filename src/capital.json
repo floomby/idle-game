@@ -6,15 +6,20 @@
     },
     "prerequisites": [
       "Engineering I"
-    ]
+    ],
+    "description": "Having more scientists multiplies the efforts of research."
   },
   {
-    "name": "light_rockets",
+    "name": "small_launch_vehicles",
     "cost": {
-      "dollars": 10000
+      "dollars": 10000,
+      "steel": 10,
+      "aluminum": 100,
+      "silicon": 1
     },
     "prerequisites": [
       "Rocketry I"
-    ]
+    ],
+    "description": "Small launch vehicles are good for creating revenue early on. They have less complexity and are cheaper."
   }
 ]
