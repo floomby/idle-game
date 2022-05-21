@@ -23,6 +23,10 @@ const capitalData = new Map<
     cost: Record<string, number>;
     prerequisites: string[];
     description: string | undefined;
+    display: {
+      name: string;
+      acquire: string;
+    };
   }
 >(
   capital.map((item) => [
@@ -31,6 +35,7 @@ const capitalData = new Map<
       cost: item.cost as Record<string, number>,
       prerequisites: item.prerequisites,
       description: item.description,
+      display: item.display,
     },
   ])
 );
@@ -83,6 +88,8 @@ const CapitalItem = (props: {
   const dispatch = useDispatch();
   const deltaCapital: Partial<Record<CapitalType, number>> = {};
   deltaCapital[props.capitalType] = 1;
+  const display = capitalData.get(props.capitalType)!.display;
+
   const deltaResource = useMemo(() => {
     const ret = structuredClone(
       capitalData.get(props.capitalType)?.cost as Record<string, number>
@@ -116,7 +123,7 @@ const CapitalItem = (props: {
                 >
                   <h6 style={{ marginTop: "10px" }}>
                     <strong>
-                      {props.capitalType}: {value}
+                      {display.name}: {value}
                     </strong>
                   </h6>
                 </OverlayTrigger>
@@ -142,7 +149,7 @@ const CapitalItem = (props: {
                       dispatch(addNews(`${props.capitalType} bought`));
                     }}
                   >
-                    Add {props.capitalType.toString()}
+                    {display.acquire}
                   </Button>
                 </span>
               </OverlayTrigger>
@@ -188,7 +195,7 @@ export function Capital(props: { modifiers: Modifiers }) {
           <br />
           <CapitalItem capitalType="scientists" multiplier={multiplier} />
           <CapitalItem
-            capitalType="small_launch_vehicles"
+            capitalType="light_launch_vehicles"
             multiplier={multiplier}
           />
         </div>

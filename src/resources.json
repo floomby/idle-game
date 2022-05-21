@@ -6,27 +6,20 @@
   },
   {
     "name": "steel",
-    "starting": 100000,
-    "prerequisites": []
-  },
-  {
-    "name": "something",
-    "starting": 100000,
-    "prerequisites": []
-  },
-  {
-    "name": "something else",
-    "starting": 100000,
-    "prerequisites": []
+    "starting": 0,
+    "prerequisites": [],
+    "startingMarketPrice": 100
   },
   {
     "name": "aluminum",
     "starting": 0,
-    "prerequisites": ["Engineering I"]
+    "prerequisites": ["Engineering I"],
+    "startingMarketPrice": 100
   },
   {
     "name": "silicon",
     "starting": 0,
-    "prerequisites": ["Computing I"]
+    "prerequisites": ["Computing I"],
+    "startingMarketPrice": 100
   }
 ]

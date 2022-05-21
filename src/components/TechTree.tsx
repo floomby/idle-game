@@ -3,16 +3,9 @@ import { RootState } from "../store";
 import { useSelector, useDispatch } from "react-redux";
 import { unlockTech, initTech, applyProgress } from "../redux/techSlice";
 import { DefaultNode, Graph } from "@visx/network";
-import {
-  useTooltip,
-  useTooltipInPortal,
-  TooltipWithBounds,
-} from "@visx/tooltip";
+import { useTooltip, useTooltipInPortal } from "@visx/tooltip";
 import { localPoint } from "@visx/event";
-// import { Annotation, CircleSubject, Connector, Label } from "@visx/annotation";
 import tinycolor from "tinycolor2";
-
-import tech from "../tech.json";
 
 export type NetworkProps = {
   width: number;
@@ -35,11 +28,6 @@ interface CustomLink {
   dashed?: boolean;
 }
 
-const multiLine = (text: string, threshold: number) => {
-  if (text.length > threshold) return text.replace(/ /, "\n");
-  return text;
-};
-
 export function TechTree() {
   const graph = useSelector((state: RootState) => state.tech.graph);
   const dispatch = useDispatch();
@@ -52,8 +40,6 @@ export function TechTree() {
     }
   }, [dispatch]);
 
-  // console.log(graph);
-
   const {
     tooltipData,
     tooltipLeft,
@@ -63,12 +49,8 @@ export function TechTree() {
     hideTooltip,
   } = useTooltip();
 
-  // If you don't want to use a Portal, simply replace `TooltipInPortal` below with
-  // `Tooltip` or `TooltipWithBounds` and remove `containerRef`
   const { containerRef, TooltipInPortal } = useTooltipInPortal({
-    // use TooltipWithBounds
     detectBounds: true,
-    // when tooltip containers are scrolled, this will correctly update the Tooltip position
     scroll: true,
   });
 
@@ -76,7 +58,6 @@ export function TechTree() {
   let deflickerIndex = useRef(0);
   const handleMouseOver = (event: any, description: string) => {
     const coords = localPoint(event.target.ownerSVGElement, event);
-    // console.log(event.target.ownerSVGElement);
     showTooltip({
       tooltipLeft: coords!.x,
       tooltipTop: coords!.y,
@@ -96,6 +77,10 @@ export function TechTree() {
 
   const height = 600;
   const width = 960;
+
+  const scientists = useSelector(
+    (state: RootState) => state.capital.values.scientists[0]
+  );
 
   return (
     <div>
@@ -129,7 +114,12 @@ export function TechTree() {
                   }
                   onMouseOut={hideTooltip}
                   onMouseDown={() => {
-                    dispatch(applyProgress({ tech: name, progress: 1 }));
+                    dispatch(
+                      applyProgress({
+                        tech: name,
+                        progress: 1 + scientists * 0.01,
+                      })
+                    );
                   }}
                 />
                 <foreignObject
@@ -138,7 +128,12 @@ export function TechTree() {
                   height={80}
                   width={140}
                   onMouseDown={() =>
-                    dispatch(applyProgress({ tech: name, progress: 1 }))
+                    dispatch(
+                      applyProgress({
+                        tech: name,
+                        progress: 1 + scientists * 0.01,
+                      })
+                    )
                   }
                 >
                   <div
@@ -165,7 +160,6 @@ export function TechTree() {
         </svg>
         {tooltipOpen && (
           <TooltipInPortal
-            // set this to random so it correctly updates with parent bounds
             key={Math.random()}
             top={tooltipTop}
             left={tooltipLeft}

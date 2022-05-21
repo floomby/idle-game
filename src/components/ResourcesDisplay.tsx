@@ -11,7 +11,7 @@ const isUnlocked = (prerequisites: string[], tech: any) => {
 
 export function ResourcesDisplay(props: { modifiers: Modifiers }) {
   const resources = useSelector((state: RootState) => state.resources.values);
-  const market = useSelector((state: RootState) => state.resources.market);
+  const prices = useSelector((state: RootState) => state.resources.market.prices);
   const tech = useSelector((state: RootState) => state.tech.values);
   const dispatch = useDispatch();
 
@@ -22,20 +22,21 @@ export function ResourcesDisplay(props: { modifiers: Modifiers }) {
     setMultiplier(multiplierFromModifiers(props.modifiers));
   }, [props.modifiers]);
 
-  const mounted = useRef(false);
-  useEffect(() => {
-    if (mounted.current) return;
-    dispatch(initMarket());
-  }, [dispatch]);
-  useEffect(() => {
-    mounted.current = true;
-  }, []);
+  // I am doing this in the story component now, this way when I restore from saves this does not create problems
+  // const mounted = useRef(false);
+  // useEffect(() => {
+  //   if (mounted.current) return;
+  //   dispatch(initMarket());
+  // }, [dispatch]);
+  // useEffect(() => {
+  //   mounted.current = true;
+  // }, []);
 
   return (
     <Container style={{ marginLeft: "0", marginRight: "0" }} className="mt-1">
       <Row>
         <Col>
-          <Table borderless={true} className="unselectable-text">
+          <Table borderless={true} className="unselectable-text" style={{tableLayout: "fixed"}}>
             <tbody>
               {Object.entries(resources)
                 .filter(([key, value]) => isUnlocked(value[1], tech))
@@ -54,8 +55,8 @@ export function ResourcesDisplay(props: { modifiers: Modifiers }) {
                         <Button
                           disabled={
                             !(
-                              market[key] &&
-                              resources["dollars"][0] > market[key] * multiplier
+                              prices[key] &&
+                              resources["dollars"][0] >= prices[key] * multiplier
                             )
                           }
                           className="air-button btn-sm"
@@ -63,8 +64,30 @@ export function ResourcesDisplay(props: { modifiers: Modifiers }) {
                             dispatch(purchaseResource([key, multiplier]));
                           }}
                         >
-                          {market[key]
-                            ? `$${market[key] * multiplier}`
+                          {prices[key]
+                            ? `$${prices[key] * multiplier}`
+                            : "unavailable"}
+                        </Button>
+                      )}
+                    </td>
+                    <td>
+                      {key === "dollars" ? (
+                        <></>
+                      ) : (
+                        <Button
+                          disabled={
+                            !(
+                              resources[key] &&
+                              resources[key][0] >= multiplier
+                            )
+                          }
+                          className="air-button btn-sm"
+                          onClick={() => {
+                            dispatch(purchaseResource([key, -multiplier * prices[key]]));
+                          }}
+                        >
+                          {prices[key]
+                            ? `$${-multiplier * prices[key]}`
                             : "unavailable"}
                         </Button>
                       )}

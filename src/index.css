@@ -75,3 +75,13 @@ body {
     transform: translatex(-30%);
   }
 }
+
+/* TODO: fix this horribleness */
+.modal-content{
+  background: linear-gradient(
+    150.96deg,
+    #cbc6ad -29.09%,
+    #8898e0 51.77%,
+    #c694dd 129.35%
+  );
+}

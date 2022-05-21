@@ -20,9 +20,12 @@ export const playerSlice = createSlice({
     awardScore: (state, action: PayloadAction<number>) => {
       state.score += action.payload;
     },
+    restore: (state, action: PayloadAction<string>) => {
+      Object.assign(state, JSON.parse(action.payload));
+    },
   },
 });
 
-export const { setName } = playerSlice.actions;
+export const { setName, restore } = playerSlice.actions;
 
 export default playerSlice.reducer;

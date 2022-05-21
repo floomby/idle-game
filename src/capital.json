@@ -7,10 +7,14 @@
     "prerequisites": [
       "Engineering I"
     ],
-    "description": "Having more scientists multiplies the efforts of research."
+    "description": "Having more scientists multiplies the efforts of research.",
+    "display": {
+      "name": "Scientists",
+      "acquire": "Hire scientist"
+    }
   },
   {
-    "name": "small_launch_vehicles",
+    "name": "light_launch_vehicles",
     "cost": {
       "dollars": 10000,
       "steel": 10,
@@ -20,6 +24,10 @@
     "prerequisites": [
       "Rocketry I"
     ],
-    "description": "Small launch vehicles are good for creating revenue early on. They have less complexity and are cheaper."
+    "description": "Small launch vehicles are good for creating revenue early on. They have less complexity and are cheaper.",
+    "display": {
+      "name": "Light launch vehicles",
+      "acquire": "Build light launch vehicle"
+    }
   }
 ]

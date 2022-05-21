@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
-type CapitalType = "scientists" | "small_launch_vehicles";
+type CapitalType = "scientists" | "light_launch_vehicles";
 
 export interface CapitalState {
   values: Record<CapitalType, [number, boolean]>;
@@ -9,7 +9,7 @@ export interface CapitalState {
 const initialState: CapitalState = {
   values: {
     scientists: [0, true],
-    small_launch_vehicles: [0, true],
+    light_launch_vehicles: [0, true],
   },
 };
 
@@ -30,10 +30,13 @@ export const capitalSlice = createSlice({
     exposeCapital: (state, action: PayloadAction<CapitalType>) => {
       state.values[action.payload][1] = true;
     },
+    restore: (state, action: PayloadAction<string>) => {
+      Object.assign(state, JSON.parse(action.payload));
+    },
   },
 });
 
 export type { CapitalType };
-export const { capitalDelta, exposeCapital } = capitalSlice.actions;
+export const { capitalDelta, exposeCapital, restore } = capitalSlice.actions;
 
 export default capitalSlice.reducer;

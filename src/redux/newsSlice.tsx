@@ -24,9 +24,12 @@ export const newsSlice = createSlice({
       state.items.shift();
       state.removed++;
     },
+    restore: (state, action: PayloadAction<string>) => {
+      Object.assign(state, JSON.parse(action.payload));
+    },
   },
 });
 
-export const { addNews, removeOldestNews } = newsSlice.actions;
+export const { addNews, removeOldestNews, restore } = newsSlice.actions;
 
 export default newsSlice.reducer;

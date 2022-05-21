@@ -151,7 +151,8 @@ export const techSlice = createSlice({
         );
         state.graph.nodes[index].progress = Math.min(
           1.0,
-          state.values[action.payload.tech].progress / techNodes.get(action.payload.tech)!.hardness
+          state.values[action.payload.tech].progress /
+            techNodes.get(action.payload.tech)!.hardness
         );
         return;
       }
@@ -186,9 +187,13 @@ export const techSlice = createSlice({
           }
         });
     },
+    restore: (state, action: PayloadAction<string>) => {
+      Object.assign(state, JSON.parse(action.payload));
+    },
   },
 });
 
-export const { unlockTech, initTech, applyProgress } = techSlice.actions;
+export const { unlockTech, initTech, applyProgress, restore } =
+  techSlice.actions;
 
 export default techSlice.reducer;
