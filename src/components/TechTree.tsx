@@ -32,13 +32,14 @@ export function TechTree() {
   const graph = useSelector((state: RootState) => state.tech.graph);
   const dispatch = useDispatch();
 
-  const initialized = useRef(false);
-  useEffect(() => {
-    if (!initialized.current) {
-      initialized.current = true;
-      dispatch(initTech());
-    }
-  }, [dispatch]);
+  // Moved to story component
+  // const initialized = useRef(false);
+  // useEffect(() => {
+  //   if (!initialized.current) {
+  //     initialized.current = true;
+  //     dispatch(initTech());
+  //   }
+  // }, [dispatch]);
 
   const {
     tooltipData,
@@ -75,7 +76,7 @@ export function TechTree() {
     return () => clearInterval(interval);
   }, [hideTooltip]);
 
-  const height = 600;
+  const height = 700;
   const width = 960;
 
   const scientists = useSelector(

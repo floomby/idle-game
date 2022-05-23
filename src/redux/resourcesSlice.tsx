@@ -19,8 +19,18 @@ const initialState: ResourcesState = {
     ])
   ),
   market: {
-    prices: {},
-    targets: {},
+    prices: Object.fromEntries(
+      resourcesData.filter((value) => !!value.startingMarketPrice).map((value) => [
+        value.name,
+        value.startingMarketPrice!,
+      ])
+    ),
+    targets: Object.fromEntries(
+      resourcesData.filter((value) => !!value.startingMarketPrice).map((value) => [
+        value.name,
+        value.startingMarketPrice!,
+      ])
+    ),
     pressure: {},
   },
 };
@@ -39,17 +49,18 @@ export const resourcesSlice = createSlice({
     purchaseResource: (state, action: PayloadAction<[string, number]>) => {
       const [resource, amount] = action.payload;
       state.values[resource][0] += amount;
-      state.values["dollars"][0] -= amount * state.market.prices[resource];
+      state.values["dollars"][0] -= amount * state.market.prices[resource]!;
       if (!state.market.pressure[resource]) {
         state.market.pressure[resource] = amount;
       } else {
         state.market.pressure[resource] += amount;
       }
     },
-    initMarket: (state) => {
-      state.market.prices["steel"] = 1;
-      state.market.prices["aluminum"] = 1;
-      state.market.prices["silicon"] = 1;
+    updateMarket: (state, action: PayloadAction<Record<string, [number, number]>>) => {
+      Object.entries(action.payload).forEach(([key, [price, target]]) => {
+        state.market.prices[key] = price;
+        state.market.targets[key] = target;
+      });
     },
     restore: (state, action: PayloadAction<string>) => {
       Object.assign(state, JSON.parse(action.payload));
@@ -57,7 +68,7 @@ export const resourcesSlice = createSlice({
   },
 });
 
-export const { resourceDelta, purchaseResource, initMarket, restore } =
+export const { resourceDelta, purchaseResource, updateMarket, restore } =
   resourcesSlice.actions;
 
 export default resourcesSlice.reducer;

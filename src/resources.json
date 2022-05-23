@@ -7,13 +7,13 @@
   {
     "name": "steel",
     "starting": 0,
-    "prerequisites": [],
+    "prerequisites": ["Metallurgy"],
     "startingMarketPrice": 100
   },
   {
     "name": "aluminum",
     "starting": 0,
-    "prerequisites": ["Engineering I"],
+    "prerequisites": ["Metallurgy"],
     "startingMarketPrice": 100
   },
   {

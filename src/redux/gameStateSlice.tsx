@@ -10,12 +10,14 @@ export interface GameState {
   phase: GameStates;
   dialogIndex: number;
   frame: number;
+  completedEvents: Record<string, boolean>;
 }
 
 const initialState: GameState = {
   phase: GameStates.Naming,
   dialogIndex: 0,
   frame: 0,
+  completedEvents: {},
 };
 
 export const gameStateSlice = createSlice({
@@ -34,6 +36,9 @@ export const gameStateSlice = createSlice({
     advanceFrame: (state) => {
       state.frame++;
     },
+    completeEvent: (state, action: PayloadAction<string>) => {
+      state.completedEvents[action.payload] = true;
+    },
     restore: (state, action: PayloadAction<string>) => {
       Object.assign(state, JSON.parse(action.payload));
     },
@@ -46,6 +51,7 @@ export const {
   advanceDialog,
   resetDialog,
   advanceFrame,
+  completeEvent,
   restore,
 } = gameStateSlice.actions;
 export default gameStateSlice.reducer;

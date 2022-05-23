@@ -29,8 +29,18 @@ export interface TechData {
 
 // TODO fix this interface
 export interface TechState {
-  values: any;
+  values: Record<
+    string,
+    {
+      available: boolean;
+      unlocked: boolean;
+      progress: number;
+      prerequisites: string[];
+      description: string;
+    }
+  >;
   graph: any;
+  progressable: string[];
 }
 
 const initialState: TechState = {
@@ -42,6 +52,7 @@ const initialState: TechState = {
         prerequisites: tech.prerequisites,
         unlocked: false,
         available: false,
+        progress: 0,
       },
     ])
   ),
@@ -49,6 +60,7 @@ const initialState: TechState = {
     nodes: [],
     links: [],
   },
+  progressable: [],
 };
 
 // TODO: refactor to reduce redundancy
@@ -59,10 +71,10 @@ export const techSlice = createSlice({
     initTech: (state) => {
       state.graph.links = [];
       state.graph.nodes = [];
+      state.progressable = [];
       techs
         .map((tech) => tech.name)
         .forEach((key) => {
-          state.values[key].progress = 0;
           let isAvailable = true;
           let tmpLinks = [];
           for (const prerequisite of state.values[key].prerequisites) {
@@ -86,6 +98,9 @@ export const techSlice = createSlice({
               ),
             });
             state.graph.links = [...state.graph.links, ...tmpLinks];
+            if (!state.values[key].unlocked) {
+              state.progressable.push(key);
+            }
           }
         });
     },
@@ -100,6 +115,7 @@ export const techSlice = createSlice({
       // Somewhat inefficient, but it's ok for now
       state.graph.links = [];
       state.graph.nodes = [];
+      state.progressable = [];
       techs
         .map((tech) => tech.name)
         .forEach((key) => {
@@ -126,6 +142,9 @@ export const techSlice = createSlice({
               ),
             });
             state.graph.links = [...state.graph.links, ...tmpLinks];
+            if (!state.values[key].unlocked) {
+              state.progressable.push(key);
+            }
           }
         });
     },
@@ -158,6 +177,7 @@ export const techSlice = createSlice({
       }
       state.graph.links = [];
       state.graph.nodes = [];
+      state.progressable = [];
       techs
         .map((tech) => tech.name)
         .forEach((key) => {
@@ -184,6 +204,9 @@ export const techSlice = createSlice({
               ),
             });
             state.graph.links = [...state.graph.links, ...tmpLinks];
+            if (!state.values[key].unlocked) {
+              state.progressable.push(key);
+            }
           }
         });
     },

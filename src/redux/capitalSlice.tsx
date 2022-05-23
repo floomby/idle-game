@@ -1,6 +1,7 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
-type CapitalType = "scientists" | "light_launch_vehicles";
+// TODO This seems worse and more verbose than how I did the others
+type CapitalType = "scientists" | "light_launch_vehicles" | "heavy_launch_vehicles" | "research_director";
 
 export interface CapitalState {
   values: Record<CapitalType, [number, boolean]>;
@@ -10,6 +11,8 @@ const initialState: CapitalState = {
   values: {
     scientists: [0, true],
     light_launch_vehicles: [0, true],
+    heavy_launch_vehicles: [0, true],
+    research_director: [0, true],
   },
 };
 

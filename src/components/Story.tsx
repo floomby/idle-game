@@ -8,7 +8,7 @@ import { RootState } from "../store";
 import { useSelector, useDispatch } from "react-redux";
 import { Button, Container } from "react-bootstrap";
 import { useTransition, config as springConfig, animated } from "react-spring";
-import { initMarket } from "../redux/resourcesSlice";
+import { initTech } from "../redux/techSlice";
 
 // Something like this (I still don't know what the story or the gameplay are exactly)
 const story = [
@@ -30,7 +30,7 @@ export default function Story(props: { index: number }) {
   const advance = useCallback(() => {
     if (gameState.dialogIndex === story.length - 1) {
       dispatch(setGameState(GameStates.Playing));
-      dispatch(initMarket());
+      dispatch(initTech());
     } else {
       dispatch(advanceDialog());
     }

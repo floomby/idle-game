@@ -4,9 +4,12 @@
     "cost": {
       "dollars": 100
     },
-    "prerequisites": [
-      "Engineering I"
-    ],
+    "prerequisites": {
+      "capitalRequirements": {},
+      "tech": [
+        "Engineering I"
+      ]
+    },
     "description": "Having more scientists multiplies the efforts of research.",
     "display": {
       "name": "Scientists",
@@ -14,20 +17,60 @@
     }
   },
   {
+    "name": "research_director",
+    "cost": {
+      "dollars": 100
+    },
+    "prerequisites": {
+      "capitalRequirements": {
+        "scientists": 10
+      },
+      "tech": []
+    },
+    "description": "By having more independent research teams, more discoveries can be made in parallel.",
+    "display": {
+      "name": "Research Director",
+      "acquire": "Hire research director"
+    }
+  },
+  {
     "name": "light_launch_vehicles",
     "cost": {
-      "dollars": 10000,
+      "dollars": 5000,
       "steel": 10,
       "aluminum": 100,
       "silicon": 1
     },
-    "prerequisites": [
-      "Rocketry I"
-    ],
+    "prerequisites": {
+      "capitalRequirements": {},
+      "tech": [
+        "Rocketry I"
+      ]
+    },
     "description": "Small launch vehicles are good for creating revenue early on. They have less complexity and are cheaper.",
     "display": {
       "name": "Light launch vehicles",
       "acquire": "Build light launch vehicle"
+    }
+  },
+  {
+    "name": "heavy_launch_vehicles",
+    "cost": {
+      "dollars": 20000,
+      "steel": 15,
+      "aluminum": 500,
+      "silicon": 1
+    },
+    "prerequisites": {
+      "capitalRequirements": {},
+      "tech": [
+        "Rocketry I", "Engineering I"
+      ]
+    },
+    "description": "Heavy launch vehicles are ",
+    "display": {
+      "name": "Heavy launch vehicles",
+      "acquire": "Build heavy launch vehicle"
     }
   }
 ]

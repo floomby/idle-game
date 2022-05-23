@@ -3,7 +3,7 @@ import { RootState } from "../store";
 import { useSelector, useDispatch } from "react-redux";
 import { Button, Table, Container, Row, Col } from "react-bootstrap";
 import { Modifiers, multiplierFromModifiers } from "../common";
-import { purchaseResource, initMarket } from "../redux/resourcesSlice";
+import { purchaseResource } from "../redux/resourcesSlice";
 
 const isUnlocked = (prerequisites: string[], tech: any) => {
   return prerequisites.every((prerequisite) => tech[prerequisite]?.unlocked);
@@ -11,7 +11,9 @@ const isUnlocked = (prerequisites: string[], tech: any) => {
 
 export function ResourcesDisplay(props: { modifiers: Modifiers }) {
   const resources = useSelector((state: RootState) => state.resources.values);
-  const prices = useSelector((state: RootState) => state.resources.market.prices);
+  const prices = useSelector(
+    (state: RootState) => state.resources.market.prices
+  );
   const tech = useSelector((state: RootState) => state.tech.values);
   const dispatch = useDispatch();
 
@@ -36,7 +38,11 @@ export function ResourcesDisplay(props: { modifiers: Modifiers }) {
     <Container style={{ marginLeft: "0", marginRight: "0" }} className="mt-1">
       <Row>
         <Col>
-          <Table borderless={true} className="unselectable-text" style={{tableLayout: "fixed"}}>
+          <Table
+            borderless={true}
+            className="unselectable-text"
+            style={{ tableLayout: "fixed" }}
+          >
             <tbody>
               {Object.entries(resources)
                 .filter(([key, value]) => isUnlocked(value[1], tech))
@@ -53,10 +59,12 @@ export function ResourcesDisplay(props: { modifiers: Modifiers }) {
                         <></>
                       ) : (
                         <Button
+                          style={{ color: "red" }}
                           disabled={
                             !(
                               prices[key] &&
-                              resources["dollars"][0] >= prices[key] * multiplier
+                              resources["dollars"][0] >=
+                                prices[key] * multiplier
                             )
                           }
                           className="air-button btn-sm"
@@ -64,9 +72,11 @@ export function ResourcesDisplay(props: { modifiers: Modifiers }) {
                             dispatch(purchaseResource([key, multiplier]));
                           }}
                         >
-                          {prices[key]
-                            ? `$${prices[key] * multiplier}`
-                            : "unavailable"}
+                          <strong>
+                            {prices[key]
+                              ? `$${(multiplier * prices[key]).toFixed(2)}`
+                              : "unavailable"}
+                          </strong>
                         </Button>
                       )}
                     </td>
@@ -75,20 +85,22 @@ export function ResourcesDisplay(props: { modifiers: Modifiers }) {
                         <></>
                       ) : (
                         <Button
+                          style={{ color: "green" }}
                           disabled={
-                            !(
-                              resources[key] &&
-                              resources[key][0] >= multiplier
-                            )
+                            !(resources[key] && resources[key][0] >= multiplier)
                           }
                           className="air-button btn-sm"
                           onClick={() => {
-                            dispatch(purchaseResource([key, -multiplier * prices[key]]));
+                            dispatch(
+                              purchaseResource([key, -multiplier * prices[key]])
+                            );
                           }}
                         >
-                          {prices[key]
-                            ? `$${-multiplier * prices[key]}`
-                            : "unavailable"}
+                          <strong>
+                            {prices[key]
+                              ? `$${(multiplier * prices[key]).toFixed(2)}`
+                              : "unavailable"}
+                          </strong>
                         </Button>
                       )}
                     </td>
@@ -98,7 +110,7 @@ export function ResourcesDisplay(props: { modifiers: Modifiers }) {
           </Table>
         </Col>
         <Col>
-          <h3>Market info here</h3>
+          <h3></h3>
         </Col>
       </Row>
     </Container>

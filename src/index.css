@@ -77,11 +77,16 @@ body {
 }
 
 /* TODO: fix this horribleness */
-.modal-content{
+.modal-content {
   background: linear-gradient(
     150.96deg,
     #cbc6ad -29.09%,
     #8898e0 51.77%,
     #c694dd 129.35%
   );
+}
+
+button[disabled="disabled"].air-button,
+button:disabled.air-button {
+  color: rgba(81, 91, 94, 0.614) !important;
 }

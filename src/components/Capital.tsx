@@ -21,7 +21,10 @@ const capitalData = new Map<
   string,
   {
     cost: Record<string, number>;
-    prerequisites: string[];
+    prerequisites: {
+      tech: string[];
+      capitalRequirements: Partial<Record<CapitalType, number>>;
+    };
     description: string | undefined;
     display: {
       name: string;
@@ -40,10 +43,23 @@ const capitalData = new Map<
   ])
 );
 
-const isUnlocked = (capitalType: CapitalType, tech: any) => {
-  return capitalData
-    .get(capitalType)!
-    .prerequisites.every((prerequisite) => tech[prerequisite]?.unlocked);
+const isUnlocked = (
+  capitalType: CapitalType,
+  tech: any,
+  capital: Record<CapitalType, [number, boolean]>
+) => {
+  const data = capitalData.get(capitalType)!;
+
+  return (
+    data.prerequisites.tech.every(
+      (prerequisite) => tech[prerequisite]?.unlocked
+    ) &&
+    Object.entries(data.prerequisites.capitalRequirements).every(
+      ([key, value]) => {
+        return capital[key as CapitalType][0] >= value;
+      }
+    )
+  );
 };
 
 const ResourceTooltip = (props: { resources: Record<string, number> }) => {
@@ -58,8 +74,8 @@ const ResourceTooltip = (props: { resources: Record<string, number> }) => {
     >
       {Object.entries(props.resources).map(([key, value]) => {
         return (
-          <li key={key}>
-            {key}: {-(value as number)}
+          <li key={key} style={{}}>
+            {key}: <span style={{ color: "red" }}> {-(value as number)}</span>
           </li>
         );
       })}
@@ -81,13 +97,14 @@ const CapitalItem = (props: {
   multiplier: number;
 }) => {
   const resources = useSelector((state: RootState) => state.resources.values);
+  const capital = useSelector((state: RootState) => state.capital.values);
   const tech = useSelector((state: RootState) => state.tech.values);
   const value = useSelector(
     (state: RootState) => state.capital.values[props.capitalType]
   );
   const dispatch = useDispatch();
   const deltaCapital: Partial<Record<CapitalType, number>> = {};
-  deltaCapital[props.capitalType] = 1;
+  deltaCapital[props.capitalType] = 1 * props.multiplier;
   const display = capitalData.get(props.capitalType)!.display;
 
   const deltaResource = useMemo(() => {
@@ -102,7 +119,7 @@ const CapitalItem = (props: {
 
   return (
     <>
-      {isUnlocked(props.capitalType, tech) ? (
+      {isUnlocked(props.capitalType, tech, capital) ? (
         <Container>
           <Row>
             <Col>
@@ -193,11 +210,9 @@ export function Capital(props: { modifiers: Modifiers }) {
           }}
         >
           <br />
-          <CapitalItem capitalType="scientists" multiplier={multiplier} />
-          <CapitalItem
-            capitalType="light_launch_vehicles"
-            multiplier={multiplier}
-          />
+          {Array.from(capitalData.keys()).map((capitalType) => {
+            return <CapitalItem key={capitalType} capitalType={capitalType as CapitalType} multiplier={multiplier} />;
+          })}
         </div>
       </div>
     </>
