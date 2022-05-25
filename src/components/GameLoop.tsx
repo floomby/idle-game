@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { RootState } from "../store";
 import { useSelector, useDispatch } from "react-redux";
 import { capitalDelta } from "../redux/capitalSlice";
@@ -10,7 +10,7 @@ import { random } from "../common";
 import { addNews } from "../redux/newsSlice";
 
 // This is not the most efficient way to do this
-export function GameLoop() {
+export function GameLoop(props: { autosave: () => void }) {
   const light_launch_vehicles = useSelector(
     (state: RootState) => state.capital.values.light_launch_vehicles
   );
@@ -53,6 +53,7 @@ export function GameLoop() {
         );
       }
       if (frame % 10 === 0) {
+        props.autosave();
         dispatch(
           updateMarket(
             Object.fromEntries(
@@ -75,16 +76,18 @@ export function GameLoop() {
         }
       }
       if (frame === 2) {
-          dispatch(
-            addNews(
-              `${name} expresses excitement to media as first round of VC proves to be a massive successes.`
-            )
-          );
-          dispatch(
-            resourceDelta({
-              dollars: 100000,
-            })
-          );
+        dispatch(
+          addNews(
+            `${name} expresses excitement to media as first round of VC proves to be a massive successes.`
+          )
+        );
+        dispatch(
+          resourceDelta({
+            dollars: 100000,
+          })
+        );
+      }
+      if (frame === 15) {
       }
 
       dispatch(advanceFrame());
@@ -101,6 +104,8 @@ export function GameLoop() {
     completedEvents,
     tech,
     name,
+    props,
+    market.prices,
   ]);
 
   return <></>;

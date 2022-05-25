@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef, useCallback } from "react";
 import { Intro } from "./components/Intro";
 import { ResourcesDisplay } from "./components/ResourcesDisplay";
+import { Special } from "./components/Special";
 import { RootState } from "./store";
 import { useSelector, useDispatch } from "react-redux";
 import { TechTree } from "./components/TechTree";
@@ -49,6 +50,7 @@ const HelpModal = (props: {
   hide: () => void;
   save: () => void;
   load: () => void;
+  loadAutosave: () => void;
 }) => {
   return (
     <Modal
@@ -64,13 +66,21 @@ const HelpModal = (props: {
             sucks.) <br />
             <br />
             ...anyways start by clicking on technologies to get to researching
-            them. Keep clicking on stuff and making stuff. The alt, ctrl, and shift
-            key can be used to buy and sell in bulk. Explore around and
+            them. Keep clicking on stuff and making stuff. The alt, ctrl, and
+            shift key can be used to buy and sell in bulk. Explore around and
             see what you can find. See if you can unlock everything.
           </strong>
         </p>
       </Modal.Body>
       <Modal.Footer>
+      <Button
+          variant="secondary"
+          className="air-button"
+          style={{ color: "black" }}
+          onClick={props.loadAutosave}
+        >
+          <strong>Load Autosave</strong>
+        </Button>
         <Button
           variant="secondary"
           className="air-button"
@@ -254,6 +264,7 @@ export function App() {
         hide={() => setShow(!show)}
         save={() => save("")}
         load={() => load("")}
+        loadAutosave={() => load("as")}
       />
       {gameState.phase === GameStates.Playing ? (
         <Container
@@ -272,8 +283,15 @@ export function App() {
               <Capital modifiers={modifiers} />
             </Col>
           </Row>
-          <ResourcesDisplay modifiers={modifiers} />
-          <GameLoop />
+          <Row>
+            <Col>
+              <ResourcesDisplay modifiers={modifiers} />
+            </Col>
+            <Col>
+              <Special />
+            </Col>
+          </Row>
+          <GameLoop autosave={() => save("as")} />
         </Container>
       ) : (
         <Intro />
