@@ -49,11 +49,11 @@ body {
 }
 
 .no-scrollbars {
-  -ms-overflow-style: none; /* Internet Explorer 10+ */
-  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none;
+  scrollbar-width: none;
 }
 .no-scrollbars::-webkit-scrollbar {
-  display: none; /* Safari and Chrome */
+  display: none;
 }
 
 .news-scroller {
@@ -68,11 +68,11 @@ body {
 
 @keyframes slide {
   0% {
-    transform: translatex(100%);
+    transform: translatex(10%);
   }
 
   100% {
-    transform: translatex(-30%);
+    transform: translatex(-10%);
   }
 }
 

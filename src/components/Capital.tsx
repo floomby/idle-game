@@ -62,7 +62,7 @@ const isUnlocked = (
   );
 };
 
-const ResourceTooltip = (props: { resources: Record<string, number> }) => {
+const ResourceTooltip = (props: { resources: Record<string, number>, covered: boolean[] }) => {
   return (
     <ul
       style={{
@@ -72,10 +72,10 @@ const ResourceTooltip = (props: { resources: Record<string, number> }) => {
         marginRight: "5px",
       }}
     >
-      {Object.entries(props.resources).map(([key, value]) => {
+      {Object.entries(props.resources).map(([key, value], index) => {
         return (
           <li key={key} style={{}}>
-            {key}: <span style={{ color: "red" }}> {-(value as number)}</span>
+            {key}: <span style={props.covered[index] ? {} : { color: "red" }}> {-(value as number)}</span>
           </li>
         );
       })}
@@ -87,7 +87,7 @@ const costCovered = (
   a: Record<string, number>,
   b: Record<string, [number, string[]]>
 ) => {
-  return Object.entries(a).every(([key, value]) => {
+  return Object.entries(a).map(([key, value]) => {
     return b[key as string] && b[key as string]![0] + value >= 0;
   });
 };
@@ -138,7 +138,7 @@ const CapitalItem = (props: {
                     </Tooltip>
                   }
                 >
-                  <h6 style={{ marginTop: "10px" }}>
+                  <h6 style={{ marginTop: "10px", color: "white" }}>
                     <strong>
                       {display.name}: {value}
                     </strong>
@@ -152,13 +152,13 @@ const CapitalItem = (props: {
                 delay={{ show: 200, hide: 150 }}
                 overlay={
                   <Tooltip>
-                    <ResourceTooltip resources={deltaResource} />
+                    <ResourceTooltip resources={deltaResource} covered={costCovered(deltaResource, resources)}/>
                   </Tooltip>
                 }
               >
                 <span>
                   <Button
-                    disabled={!costCovered(deltaResource, resources)}
+                    disabled={!Object.entries(costCovered(deltaResource, resources)).every(x => x[1])}
                     className="air-button"
                     onClick={() => {
                       dispatch(capitalDelta(deltaCapital));
@@ -190,7 +190,6 @@ export function Capital(props: { modifiers: Modifiers }) {
 
   return (
     <>
-      <h3 className="text-center">Capital</h3>
       <div
         style={{
           // width: "50vw",

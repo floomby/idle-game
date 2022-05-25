@@ -64,8 +64,9 @@ const HelpModal = (props: {
             sucks.) <br />
             <br />
             ...anyways start by clicking on technologies to get to researching
-            them. Keep clicking on stuff and making stuff. Explore around and
-            see what you can find. There are secrets to discover.
+            them. Keep clicking on stuff and making stuff. The alt, ctrl, and shift
+            key can be used to buy and sell in bulk. Explore around and
+            see what you can find. See if you can unlock everything.
           </strong>
         </p>
       </Modal.Body>
@@ -108,7 +109,7 @@ export function App() {
   const news = useSelector((state: RootState) => state.news);
   const dispatch = useDispatch();
 
-  const save = () => {
+  const save = (postfix: string) => {
     // console.log("saving");
     // console.log(player);
     // console.log(resources);
@@ -116,42 +117,42 @@ export function App() {
     // console.log(tech);
     // console.log(capital);
     // console.log(news);
-    localStorage.setItem("player", JSON.stringify(player));
-    localStorage.setItem("resources", JSON.stringify(resources));
-    localStorage.setItem("gameState", JSON.stringify(gameState));
-    localStorage.setItem("tech", JSON.stringify(tech));
-    localStorage.setItem("capital", JSON.stringify(capital));
-    localStorage.setItem("news", JSON.stringify(news));
+    localStorage.setItem(`player${postfix}`, JSON.stringify(player));
+    localStorage.setItem(`resources${postfix}`, JSON.stringify(resources));
+    localStorage.setItem(`gameState${postfix}`, JSON.stringify(gameState));
+    localStorage.setItem(`tech${postfix}`, JSON.stringify(tech));
+    localStorage.setItem(`capital${postfix}`, JSON.stringify(capital));
+    localStorage.setItem(`news${postfix}`, JSON.stringify(news));
   };
 
-  const load = () => {
+  const load = (postfix: string) => {
     let invalid = false;
-    const player = localStorage.getItem("player");
+    const player = localStorage.getItem(`player${postfix}`);
     if (!player) {
       console.error("Unable to load: player");
       invalid = true;
     }
-    const resources = localStorage.getItem("resources");
+    const resources = localStorage.getItem(`resources${postfix}`);
     if (!resources) {
       console.error("Unable to load: resources");
       invalid = true;
     }
-    const gameState = localStorage.getItem("gameState");
+    const gameState = localStorage.getItem(`gameState${postfix}`);
     if (!gameState) {
       console.error("Unable to load: gameState");
       invalid = true;
     }
-    const tech = localStorage.getItem("tech");
+    const tech = localStorage.getItem(`tech${postfix}`);
     if (!tech) {
       console.error("Unable to load: tech");
       invalid = true;
     }
-    const capital = localStorage.getItem("capital");
+    const capital = localStorage.getItem(`capital${postfix}`);
     if (!capital) {
       console.error("Unable to load: capital");
       invalid = true;
     }
-    const news = localStorage.getItem("news");
+    const news = localStorage.getItem(`news${postfix}`);
     if (!news) {
       console.error("Unable to load: news");
       invalid = true;
@@ -251,8 +252,8 @@ export function App() {
       <HelpModal
         show={show}
         hide={() => setShow(!show)}
-        save={save}
-        load={load}
+        save={() => save("")}
+        load={() => load("")}
       />
       {gameState.phase === GameStates.Playing ? (
         <Container

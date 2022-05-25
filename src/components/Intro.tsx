@@ -48,6 +48,7 @@ export function Intro() {
             >
               <Form.Group controlId="name">
                 <Form.Control
+                  autoFocus
                   className="air-form text-center"
                   autoComplete="off"
                   type="text"

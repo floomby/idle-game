@@ -1,7 +1,7 @@
 [
   {
     "name": "dollars",
-    "starting": 100000,
+    "starting": 100,
     "prerequisites": []
   },
   {

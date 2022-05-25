@@ -1,8 +1,11 @@
 {
     "cSpell.words": [
+        "borderless",
         "deflicker",
         "progressable",
         "reduxjs",
-        "unselectable"
+        "tinycolor",
+        "unselectable",
+        "visx"
     ]
 }

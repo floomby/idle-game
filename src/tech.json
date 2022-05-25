@@ -134,5 +134,21 @@
     "x": 750,
     "y": 600,
     "hardness": 10
+  },
+  {
+    "name": "Bioengineering I",
+    "description": "Biology proves to be quite fragile. Technology can be used to help address shortcomings improving quality of life.",
+    "prerequisites": [],
+    "x": 150,
+    "y": 700,
+    "hardness": 10
+  },
+  {
+    "name": "Bioengineering II",
+    "description": "Going beyond just addressing shortcomings and immediate threats to life bioengineering offers potential for improvements over nature.",
+    "prerequisites": ["Bioengineering I"],
+    "x": 300,
+    "y": 700,
+    "hardness": 10
   }
 ]

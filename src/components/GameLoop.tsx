@@ -32,6 +32,7 @@ export function GameLoop() {
     (state: RootState) => state.gameState.completedEvents
   );
   const tech = useSelector((state: RootState) => state.tech.values);
+  const name = useSelector((state: RootState) => state.player.name);
   const dispatch = useDispatch();
   console.log(market);
 
@@ -68,10 +69,22 @@ export function GameLoop() {
           dispatch(completeEvent("Quantum News"));
           dispatch(
             addNews(
-              "Scientists begin to fear impending quantum computing will create chaos as encryption schemes used for decades prove to no longer be secure. "
+              "Scientists begin to fear impending quantum computing will create chaos as encryption schemes used for decades prove to no longer be secure."
             )
           );
         }
+      }
+      if (frame === 2) {
+          dispatch(
+            addNews(
+              `${name} expresses excitement to media as first round of VC proves to be a massive successes.`
+            )
+          );
+          dispatch(
+            resourceDelta({
+              dollars: 100000,
+            })
+          );
       }
 
       dispatch(advanceFrame());
@@ -87,6 +100,7 @@ export function GameLoop() {
     scientists,
     completedEvents,
     tech,
+    name,
   ]);
 
   return <></>;

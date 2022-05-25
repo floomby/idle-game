@@ -34,6 +34,16 @@ export function ResourcesDisplay(props: { modifiers: Modifiers }) {
   //   mounted.current = true;
   // }, []);
 
+  const data = Object.entries(resources).map(
+    ([resource, [amount, prerequisites]]) => [
+      resource,
+      amount,
+      isUnlocked(prerequisites, tech),
+    ]
+  );
+
+  const unlockedResources = data.filter(([, , unlocked]) => unlocked);
+
   return (
     <Container style={{ marginLeft: "0", marginRight: "0" }} className="mt-1">
       <Row>
@@ -43,69 +53,89 @@ export function ResourcesDisplay(props: { modifiers: Modifiers }) {
             className="unselectable-text"
             style={{ tableLayout: "fixed" }}
           >
-            <tbody>
-              {Object.entries(resources)
-                .filter(([key, value]) => isUnlocked(value[1], tech))
-                .map(([key, value]) => (
-                  <tr key={key}>
-                    <td>
-                      <strong>
-                        {key === "dollars" ? "$" : `${key} - `}
-                        {value[0]}
-                      </strong>
-                    </td>
-                    <td>
-                      {key === "dollars" ? (
-                        <></>
+            <tbody style={{ color: "white" }}>
+              {unlockedResources.map(([resource, amount, unlocked]) => (
+                <tr key={resource as string}>
+                  <td>
+                    <strong>
+                      {resource === "dollars" ? "$" : `${resource} : `}
+                      {resource === "dollars"
+                        ? (amount as number).toFixed(2)
+                        : amount}
+                    </strong>
+                  </td>
+                  <td>
+                    {resource === "dollars" ? (
+                      unlockedResources.length > 1 ? (
+                        <>Buy Resources</>
                       ) : (
-                        <Button
-                          style={{ color: "red" }}
-                          disabled={
-                            !(
-                              prices[key] &&
-                              resources["dollars"][0] >=
-                                prices[key] * multiplier
-                            )
-                          }
-                          className="air-button btn-sm"
-                          onClick={() => {
-                            dispatch(purchaseResource([key, multiplier]));
-                          }}
-                        >
-                          <strong>
-                            {prices[key]
-                              ? `$${(multiplier * prices[key]).toFixed(2)}`
-                              : "unavailable"}
-                          </strong>
-                        </Button>
-                      )}
-                    </td>
-                    <td>
-                      {key === "dollars" ? (
                         <></>
+                      )
+                    ) : (
+                      <Button
+                        style={{ color: "red" }}
+                        disabled={
+                          !(
+                            prices[resource as string] &&
+                            resources["dollars"][0] >=
+                              prices[resource as string] * multiplier
+                          )
+                        }
+                        className="air-button btn-sm"
+                        onClick={() => {
+                          dispatch(
+                            purchaseResource([resource as string, multiplier])
+                          );
+                        }}
+                      >
+                        <strong>
+                          {prices[resource as string]
+                            ? `$${(
+                                multiplier * prices[resource as string]
+                              ).toFixed(2)}`
+                            : "unavailable"}
+                        </strong>
+                      </Button>
+                    )}
+                  </td>
+                  <td>
+                    {resource === "dollars" ? (
+                      unlockedResources.length > 1 ? (
+                        <>Sell Resources</>
                       ) : (
-                        <Button
-                          style={{ color: "green" }}
-                          disabled={
-                            !(resources[key] && resources[key][0] >= multiplier)
-                          }
-                          className="air-button btn-sm"
-                          onClick={() => {
-                            dispatch(
-                              purchaseResource([key, -multiplier * prices[key]])
-                            );
-                          }}
-                        >
-                          <strong>
-                            {prices[key]
-                              ? `$${(multiplier * prices[key]).toFixed(2)}`
-                              : "unavailable"}
-                          </strong>
-                        </Button>
-                      )}
-                    </td>
-                  </tr>
-                ))}
+                        <></>
+                      )
+                    ) : (
+                      <Button
+                        style={{ color: "green" }}
+                        disabled={
+                          !(
+                            resources[resource as string] &&
+                            resources[resource as string][0] >= multiplier
+                          )
+                        }
+                        className="air-button btn-sm"
+                        onClick={() => {
+                          dispatch(
+                            purchaseResource([
+                              resource as string,
+                              -multiplier / prices[resource as string],
+                            ])
+                          );
+                        }}
+                      >
+                        <strong>
+                          {prices[resource as string]
+                            ? `$${(
+                                multiplier * prices[resource as string]
+                              ).toFixed(2)}`
+                            : "unavailable"}
+                        </strong>
+                      </Button>
+                    )}
+                  </td>
+                </tr>
+              ))}
             </tbody>
           </Table>
         </Col>

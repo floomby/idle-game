@@ -28,9 +28,11 @@ export function News() {
         marginTop: "0",
         marginLeft: "0",
         width: "100vw",
+        right: "0",
+        zIndex: "-1",
       }}
     >
-      <div className="news">
+      <div className="news" style={{ width: "1000%"}}>
         {newsItems.length ? newsItems[0] : "The world is quiet"}
       </div>
     </div>

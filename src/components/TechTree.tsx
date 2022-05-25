@@ -55,15 +55,20 @@ export function TechTree() {
     scroll: true,
   });
 
+  const [lastCoords, setLastCoords] = useState({ x: 0, y: 0 });
+
   const deflicker = useRef([false, false]);
   let deflickerIndex = useRef(0);
   const handleMouseOver = (event: any, description: string) => {
     const coords = localPoint(event.target.ownerSVGElement, event);
     showTooltip({
-      tooltipLeft: coords!.x,
-      tooltipTop: coords!.y,
+      tooltipLeft: coords?.x || lastCoords.x,
+      tooltipTop: coords?.y || lastCoords.y,
       tooltipData: description,
     });
+    if (coords) {
+      setLastCoords({ x: coords.x, y: coords.y });
+    }
     deflicker.current[0] = deflicker.current[1] = true;
   };
 
@@ -72,7 +77,7 @@ export function TechTree() {
       if (!deflicker.current[0] && !deflicker.current[1]) hideTooltip();
       deflickerIndex.current = (deflickerIndex.current + 1) % 2;
       deflicker.current[deflickerIndex.current] = false;
-    }, 100);
+    }, 200);
     return () => clearInterval(interval);
   }, [hideTooltip]);
 
@@ -84,8 +89,7 @@ export function TechTree() {
   );
 
   return (
-    <div>
-      <h3 className="text-center">Technology</h3>
+    <div style={{ marginBottom: "5px"}}>
       <div
         style={{
           // width: "50vw",
@@ -110,10 +114,6 @@ export function TechTree() {
                   fill={tinycolor(color || "#21D4FD")
                     .darken(40 * progress)
                     .toString()}
-                  onMouseOver={(event: any) =>
-                    handleMouseOver(event, description)
-                  }
-                  onMouseOut={hideTooltip}
                   onMouseDown={() => {
                     dispatch(
                       applyProgress({
@@ -136,6 +136,10 @@ export function TechTree() {
                       })
                     )
                   }
+                  onMouseOver={(event: any) =>
+                    handleMouseOver(event, description)
+                  }
+                  onMouseOut={hideTooltip}
                 >
                   <div
                     style={completed ? { color: "green" } : { color: "white" }}
