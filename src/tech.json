@@ -68,15 +68,23 @@
     "description": "Rockets experience mechanical and thermal stresses, mastering production of materials able to handle these stresses is critical.",
     "prerequisites": [],
     "x": 0,
-    "y": 300,
+    "y": 400,
     "hardness": 10
   },
   {
     "name": "Materials I",
-    "description": "More advanced metallurgy techniques ",
+    "description": "More advanced materials help with every domain that uses them.",
     "prerequisites": ["Metallurgy"],
     "x": 150,
-    "y": 300,
+    "y": 400,
+    "hardness": 10
+  },
+  {
+    "name": "Materials II",
+    "description": "By manufacturing materials that conform to strict molecular geometry properties once thought unachievable in materials are possible.",
+    "prerequisites": ["Materials I"],
+    "x": 300,
+    "y": 400,
     "hardness": 10
   },
   {
@@ -100,7 +108,7 @@
     "description": "Long hailed as a panacea of an energy rich future fusion releases immense energy by harnessing differences in per nucleon binding energies.",
     "prerequisites": ["Computing II", "Engineering II"],
     "x": 300,
-    "y": 400,
+    "y": 500,
     "hardness": 10
   },
   {
@@ -108,7 +116,7 @@
     "description": "Advancements in fusion technology have made it possible to produce fusion reactors capable of fitting on spacecraft. With this massive increase in availability of power things which once seemed untenable are now possible.",
     "prerequisites": ["Fusion"],
     "x": 450,
-    "y": 400,
+    "y": 500,
     "hardness": 10
   },
   {
@@ -116,7 +124,7 @@
     "description": "While initially presenting increased engineering challenges aneutronic fusion has proved superior from a safety and simplicity perspective helping drive adoption of fusion reactors.",
     "prerequisites": ["Fusion"],
     "x": 600,
-    "y": 500,
+    "y": 600,
     "hardness": 10
   },
   {
@@ -124,7 +132,7 @@
     "description": "The ability to transmute matter into more desirable elements proves to be a great benefit to the industrial sector.",
     "prerequisites": ["Aneutronic Fusion"],
     "x": 600,
-    "y": 600,
+    "y": 700,
     "hardness": 10
   },
   {
@@ -132,7 +140,7 @@
     "description": "Using accelerators in orbit on a grand scale nuclear transmutation is now much more efficient.",
     "prerequisites": ["Nuclear Transmutation I", "Orbital Infrastructure II"],
     "x": 750,
-    "y": 600,
+    "y": 700,
     "hardness": 10
   },
   {

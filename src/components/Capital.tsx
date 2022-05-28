@@ -15,7 +15,7 @@ import { addNews } from "../redux/newsSlice";
 import structuredClone from "@ungap/structured-clone";
 import { Modifiers, multiplierFromModifiers } from "../common";
 
-import capital from "../capital.json";
+import capitalRaw from "../capital.json";
 
 const capitalData = new Map<
   string,
@@ -32,7 +32,7 @@ const capitalData = new Map<
     };
   }
 >(
-  capital.map((item) => [
+  capitalRaw.map((item) => [
     item.name,
     {
       cost: item.cost as Record<string, number>,
@@ -62,7 +62,10 @@ const isUnlocked = (
   );
 };
 
-const ResourceTooltip = (props: { resources: Record<string, number>, covered: boolean[] }) => {
+const ResourceTooltip = (props: {
+  resources: Record<string, number>;
+  covered: boolean[];
+}) => {
   return (
     <ul
       style={{
@@ -75,7 +78,11 @@ const ResourceTooltip = (props: { resources: Record<string, number>, covered: bo
       {Object.entries(props.resources).map(([key, value], index) => {
         return (
           <li key={key} style={{}}>
-            {key}: <span style={props.covered[index] ? {} : { color: "red" }}> {-(value as number)}</span>
+            {key}:{" "}
+            <span style={props.covered[index] ? {} : { color: "red" }}>
+              {" "}
+              {-(value as number)}
+            </span>
           </li>
         );
       })}
@@ -95,6 +102,7 @@ const costCovered = (
 const CapitalItem = (props: {
   capitalType: CapitalType;
   multiplier: number;
+  shown: boolean;
 }) => {
   const resources = useSelector((state: RootState) => state.resources.values);
   const capital = useSelector((state: RootState) => state.capital.values);
@@ -119,7 +127,7 @@ const CapitalItem = (props: {
 
   return (
     <>
-      {isUnlocked(props.capitalType, tech, capital) ? (
+      {props.shown ? (
         <Container>
           <Row>
             <Col>
@@ -152,13 +160,20 @@ const CapitalItem = (props: {
                 delay={{ show: 200, hide: 150 }}
                 overlay={
                   <Tooltip>
-                    <ResourceTooltip resources={deltaResource} covered={costCovered(deltaResource, resources)}/>
+                    <ResourceTooltip
+                      resources={deltaResource}
+                      covered={costCovered(deltaResource, resources)}
+                    />
                   </Tooltip>
                 }
               >
                 <span>
                   <Button
-                    disabled={!Object.entries(costCovered(deltaResource, resources)).every(x => x[1])}
+                    disabled={
+                      !Object.entries(
+                        costCovered(deltaResource, resources)
+                      ).every((x) => x[1])
+                    }
                     className="air-button"
                     onClick={() => {
                       dispatch(capitalDelta(deltaCapital));
@@ -181,12 +196,21 @@ const CapitalItem = (props: {
 };
 
 export function Capital(props: { modifiers: Modifiers }) {
+  const tech = useSelector((state: RootState) => state.tech.values);
+  const capital = useSelector((state: RootState) => state.capital.values);
   const [multiplier, setMultiplier] = useState(
     multiplierFromModifiers(props.modifiers)
   );
   useEffect(() => {
     setMultiplier(multiplierFromModifiers(props.modifiers));
   }, [props.modifiers]);
+
+  const unlocked = useMemo(() => {
+    return Array.from(capitalData.keys()).map((capitalType) => [
+      capitalType,
+      isUnlocked(capitalType as CapitalType, tech, capital),
+    ]);
+  }, [tech, capital]);
 
   return (
     <>
@@ -208,9 +232,26 @@ export function Capital(props: { modifiers: Modifiers }) {
             width: "100%",
           }}
         >
-          <br />
-          {Array.from(capitalData.keys()).map((capitalType) => {
-            return <CapitalItem key={capitalType} capitalType={capitalType as CapitalType} multiplier={multiplier} />;
+          <div style={{ width: "100%", height: "8px"}} />
+          <div
+            className="text-center"
+            style={{ width: "100%", color: "white" }}
+          >
+            <h5>
+              Unlocked:{" "}
+              {unlocked.reduce((acm, [, shown]) => acm + (shown ? 1 : 0), 0)} /{" "}
+              {capitalRaw.length}
+            </h5>
+          </div>
+          {unlocked.map(([capitalType, shown]) => {
+            return (
+              <CapitalItem
+                key={capitalType as CapitalType}
+                capitalType={capitalType as CapitalType}
+                multiplier={multiplier}
+                shown={shown as boolean}
+              />
+            );
           })}
         </div>
       </div>

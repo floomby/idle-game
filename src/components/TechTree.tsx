@@ -55,20 +55,18 @@ export function TechTree() {
     scroll: true,
   });
 
-  const [lastCoords, setLastCoords] = useState({ x: 0, y: 0 });
-
   const deflicker = useRef([false, false]);
   let deflickerIndex = useRef(0);
   const handleMouseOver = (event: any, description: string) => {
-    const coords = localPoint(event.target.ownerSVGElement, event);
+    // Well this sucks, but I don't understand react refs to dom and useImperativeHandle (need to learn it, but I just want this to work)
+    const coords = event.target.ownerSVGElement ? localPoint(event.target.ownerSVGElement, event) : 
+    localPoint(document.getElementById("tech-tree-svg") as Element, event);
+    // console.log(coords);
     showTooltip({
-      tooltipLeft: coords?.x || lastCoords.x,
-      tooltipTop: coords?.y || lastCoords.y,
+      tooltipLeft: coords?.x,
+      tooltipTop: coords?.y,
       tooltipData: description,
     });
-    if (coords) {
-      setLastCoords({ x: coords.x, y: coords.y });
-    }
     deflicker.current[0] = deflicker.current[1] = true;
   };
 
@@ -77,11 +75,11 @@ export function TechTree() {
       if (!deflicker.current[0] && !deflicker.current[1]) hideTooltip();
       deflickerIndex.current = (deflickerIndex.current + 1) % 2;
       deflicker.current[deflickerIndex.current] = false;
-    }, 200);
+    }, 100);
     return () => clearInterval(interval);
   }, [hideTooltip]);
 
-  const height = 700;
+  const height = 800;
   const width = 960;
 
   const scientists = useSelector(
@@ -100,7 +98,7 @@ export function TechTree() {
         }}
         className="unselectable-text no-scrollbars"
       >
-        <svg width={width} height={height} ref={containerRef}>
+        <svg width={width} height={height} ref={containerRef} id="tech-tree-svg">
           <rect width={width} height={height} rx={14} fill={"#272b4d"} />
           <Graph<CustomLink, CustomNode>
             graph={graph}
@@ -144,7 +142,7 @@ export function TechTree() {
                   <div
                     style={completed ? { color: "green" } : { color: "white" }}
                   >
-                    <strong>{name}</strong>
+                    {name}
                   </div>
                 </foreignObject>
               </>
