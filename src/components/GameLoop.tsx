@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useRef } from "react";
 import { RootState } from "../store";
 import { useSelector, useDispatch } from "react-redux";
 import { capitalDelta } from "../redux/capitalSlice";
@@ -32,23 +32,43 @@ export function GameLoop(props: { autosave: () => void }) {
     (state: RootState) => state.gameState.completedEvents
   );
   const tech = useSelector((state: RootState) => state.tech.values);
+  const totalProgress = useSelector(
+    (state: RootState) => state.tech.progressCounter
+  );
   const name = useSelector((state: RootState) => state.player.name);
   const dispatch = useDispatch();
-  console.log(market);
+
+  const mounted = useRef(false);
+  const progressLast = useRef(0);
+  const timeLast = useRef(0);
+  useEffect(() => {
+    if (!mounted.current) {
+      mounted.current = true;
+      progressLast.current = totalProgress;
+      timeLast.current = Date.now();
+    }
+  }, [totalProgress]);
 
   useEffect(() => {
-    const interval = setInterval(() => {
-      // TODO set market prices)
+    const updater = () => {
       dispatch(
         resourceDelta({
-          dollars: light_launch_vehicles[0] + 5 * heavy_launch_vehicles[0],
+          dollars:
+            ((light_launch_vehicles[0] + 5 * heavy_launch_vehicles[0]) *
+              (Date.now() - timeLast.current)) /
+            1000,
         })
       );
       if (progressable.length > 0) {
         dispatch(
           applyProgress({
             tech: progressable[Math.floor(Math.random() * progressable.length)],
-            progress: research_director[0] * scientists[0] * 0.001,
+            progress:
+              (research_director[0] *
+                scientists[0] *
+                0.001 *
+                (Date.now() - timeLast.current)) /
+              1000,
           })
         );
       }
@@ -91,7 +111,14 @@ export function GameLoop(props: { autosave: () => void }) {
       }
 
       dispatch(advanceFrame());
-    }, 1000);
+      console.log("progress delta is", totalProgress - progressLast.current);
+      progressLast.current = totalProgress;
+      timeLast.current = Date.now();
+    };
+    if (Date.now() - timeLast.current > 1000) {
+      updater();
+    }
+    const interval = setInterval(updater, 1000);
     return () => clearInterval(interval);
   }, [
     light_launch_vehicles,
@@ -106,6 +133,8 @@ export function GameLoop(props: { autosave: () => void }) {
     name,
     props,
     market.prices,
+    totalProgress,
+    timeLast,
   ]);
 
   return <></>;

@@ -6,7 +6,7 @@ import { RootState } from "./store";
 import { useSelector, useDispatch } from "react-redux";
 import { TechTree } from "./components/TechTree";
 import { Capital } from "./components/Capital";
-import { Container, Row, Col } from "react-bootstrap";
+import { Container, Row, Col, Table } from "react-bootstrap";
 import { News } from "./components/News";
 import { Modifiers, ModifiersKeys } from "./common";
 import { Modal, Button } from "react-bootstrap";
@@ -68,12 +68,36 @@ const HelpModal = (props: {
             ...anyways start by clicking on technologies to get to researching
             them. Keep clicking on stuff and making stuff. The alt, ctrl, and
             shift key can be used to buy and sell in bulk. Explore around and
-            see what you can find. See if you can unlock everything.
+            see what you can find. See if you can unlock everything. <br />
+            <br />
+            Use the modifier keys for bulk buying:
           </strong>
         </p>
+        <strong>
+          <Table
+            className="padless"
+            borderless={true}
+            style={{ tableLayout: "fixed", marginLeft: "2em", width: "50%" }}
+          >
+            <tbody>
+              <tr>
+                <td>Shift</td>
+                <td>10</td>
+              </tr>
+              <tr>
+                <td>Control</td>
+                <td>100</td>
+              </tr>
+              <tr>
+                <td>Alt</td>
+                <td>10000</td>
+              </tr>
+            </tbody>
+          </Table>
+        </strong>
       </Modal.Body>
       <Modal.Footer>
-      <Button
+        <Button
           variant="secondary"
           className="air-button"
           style={{ color: "black" }}

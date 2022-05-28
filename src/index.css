@@ -90,3 +90,8 @@ button[disabled="disabled"].air-button,
 button:disabled.air-button {
   color: rgba(81, 91, 94, 0.614) !important;
 }
+
+.padless tr, .padless td {
+  padding: 0 !important;
+  margin: 0 !important;
+}

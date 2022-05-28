@@ -41,6 +41,7 @@ export interface TechState {
   >;
   graph: any;
   progressable: string[];
+  progressCounter: number;
 }
 
 const initialState: TechState = {
@@ -61,6 +62,7 @@ const initialState: TechState = {
     links: [],
   },
   progressable: [],
+  progressCounter: 0,
 };
 
 // TODO: refactor to reduce redundancy
@@ -155,6 +157,7 @@ export const techSlice = createSlice({
       if (state.values[action.payload.tech].unlocked) {
         return;
       }
+      state.progressCounter += action.payload.progress;
       state.values[action.payload.tech].progress += action.payload.progress;
       if (
         state.values[action.payload.tech].progress >=

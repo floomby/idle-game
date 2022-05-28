@@ -142,7 +142,7 @@ export function TechTree() {
                   <div
                     style={completed ? { color: "green" } : { color: "white" }}
                   >
-                    {name}
+                    <strong>{name}</strong>
                   </div>
                 </foreignObject>
               </>
