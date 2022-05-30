@@ -1,19 +1,13 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
-// TODO This seems worse and more verbose than how I did the others
-type CapitalType = "scientists" | "light_launch_vehicles" | "heavy_launch_vehicles" | "research_director";
+import capitalData from "../capital.json";
 
 export interface CapitalState {
-  values: Record<CapitalType, [number, boolean]>;
+  values: Record<string, [number, boolean]>;
 }
 
 const initialState: CapitalState = {
-  values: {
-    scientists: [0, true],
-    light_launch_vehicles: [0, true],
-    heavy_launch_vehicles: [0, true],
-    research_director: [0, true],
-  },
+  values: Object.fromEntries(capitalData.map(capitalItem => [capitalItem.name, [0, true]])),
 };
 
 export const capitalSlice = createSlice({
@@ -22,15 +16,15 @@ export const capitalSlice = createSlice({
   reducers: {
     capitalDelta: (
       state,
-      action: PayloadAction<Partial<Record<CapitalType, number>>>
+      action: PayloadAction<Partial<Record<string, number>>>
     ) => {
       Object.keys(action.payload).forEach((key) => {
-        state.values[key as CapitalType][0] += (
-          action.payload as Record<CapitalType, number>
-        )[key as CapitalType];
+        state.values[key][0] += (
+          action.payload as Record<string, number>
+        )[key];
       });
     },
-    exposeCapital: (state, action: PayloadAction<CapitalType>) => {
+    exposeCapital: (state, action: PayloadAction<string>) => {
       state.values[action.payload][1] = true;
     },
     restore: (state, action: PayloadAction<string>) => {
@@ -39,7 +33,6 @@ export const capitalSlice = createSlice({
   },
 });
 
-export type { CapitalType };
 export const { capitalDelta, exposeCapital, restore } = capitalSlice.actions;
 
 export default capitalSlice.reducer;

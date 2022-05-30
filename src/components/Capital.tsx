@@ -1,7 +1,7 @@
 import React, { useMemo, useState, useEffect } from "react";
 import { RootState } from "../store";
 import { useSelector, useDispatch } from "react-redux";
-import { capitalDelta, CapitalType } from "../redux/capitalSlice";
+import { capitalDelta } from "../redux/capitalSlice";
 import { resourceDelta } from "../redux/resourcesSlice";
 import {
   Button,
@@ -23,7 +23,8 @@ const capitalData = new Map<
     cost: Record<string, number>;
     prerequisites: {
       tech: string[];
-      capitalRequirements: Partial<Record<CapitalType, number>>;
+      capitalRequirements: Partial<Record<string, number>>;
+      events: string[];
     };
     description: string | undefined;
     display: {
@@ -44,9 +45,10 @@ const capitalData = new Map<
 );
 
 const isUnlocked = (
-  capitalType: CapitalType,
+  capitalType: string,
   tech: any,
-  capital: Record<CapitalType, [number, boolean]>
+  events: any,
+  capital: Record<string, [number, boolean]>
 ) => {
   const data = capitalData.get(capitalType)!;
 
@@ -56,8 +58,11 @@ const isUnlocked = (
     ) &&
     Object.entries(data.prerequisites.capitalRequirements).every(
       ([key, value]) => {
-        return capital[key as CapitalType][0] >= value;
+        return capital[key][0] >= value!;
       }
+    ) &&
+    data.prerequisites.events.every(
+      (prerequisite) => !!events[prerequisite]
     )
   );
 };
@@ -100,7 +105,7 @@ const costCovered = (
 };
 
 const CapitalItem = (props: {
-  capitalType: CapitalType;
+  capitalType: string;
   multiplier: number;
   shown: boolean;
 }) => {
@@ -111,7 +116,7 @@ const CapitalItem = (props: {
     (state: RootState) => state.capital.values[props.capitalType]
   );
   const dispatch = useDispatch();
-  const deltaCapital: Partial<Record<CapitalType, number>> = {};
+  const deltaCapital: Partial<Record<string, number>> = {};
   deltaCapital[props.capitalType] = 1 * props.multiplier;
   const display = capitalData.get(props.capitalType)!.display;
 
@@ -198,6 +203,7 @@ const CapitalItem = (props: {
 export function Capital(props: { modifiers: Modifiers }) {
   const tech = useSelector((state: RootState) => state.tech.values);
   const capital = useSelector((state: RootState) => state.capital.values);
+  const events = useSelector((state: RootState) => state.gameState.completedEvents);
   const [multiplier, setMultiplier] = useState(
     multiplierFromModifiers(props.modifiers)
   );
@@ -208,7 +214,7 @@ export function Capital(props: { modifiers: Modifiers }) {
   const unlocked = useMemo(() => {
     return Array.from(capitalData.keys()).map((capitalType) => [
       capitalType,
-      isUnlocked(capitalType as CapitalType, tech, capital),
+      isUnlocked(capitalType, tech, events, capital),
     ]);
   }, [tech, capital]);
 
@@ -246,8 +252,8 @@ export function Capital(props: { modifiers: Modifiers }) {
           {unlocked.map(([capitalType, shown]) => {
             return (
               <CapitalItem
-                key={capitalType as CapitalType}
-                capitalType={capitalType as CapitalType}
+                key={capitalType as string}
+                capitalType={capitalType as string}
                 multiplier={multiplier}
                 shown={shown as boolean}
               />

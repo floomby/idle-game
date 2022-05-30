@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { RootState } from "../store";
 import { useSelector, useDispatch } from "react-redux";
 import { capitalDelta } from "../redux/capitalSlice";
@@ -8,6 +8,7 @@ import { applyProgress } from "../redux/techSlice";
 import { updateMarket } from "../redux/resourcesSlice";
 import { random } from "../common";
 import { addNews } from "../redux/newsSlice";
+import { Container } from "react-bootstrap";
 
 // This is not the most efficient way to do this
 export function GameLoop(props: { autosave: () => void }) {
@@ -49,13 +50,16 @@ export function GameLoop(props: { autosave: () => void }) {
     }
   }, [totalProgress]);
 
+  const [message, setMessage] = useState("");
+
   useEffect(() => {
-    const updater = () => {
+    const updater = (timeDeltaArg?: number) => {
+      const timeDelta = timeDeltaArg || Date.now() - timeLast.current;
       dispatch(
         resourceDelta({
           dollars:
             ((light_launch_vehicles[0] + 5 * heavy_launch_vehicles[0]) *
-              (Date.now() - timeLast.current)) /
+              timeDelta) /
             1000,
         })
       );
@@ -64,11 +68,7 @@ export function GameLoop(props: { autosave: () => void }) {
           applyProgress({
             tech: progressable[Math.floor(Math.random() * progressable.length)],
             progress:
-              (research_director[0] *
-                scientists[0] *
-                0.001 *
-                (Date.now() - timeLast.current)) /
-              1000,
+              (research_director[0] * scientists[0] * 0.001 * timeDelta) / 1000,
           })
         );
       }
@@ -108,15 +108,20 @@ export function GameLoop(props: { autosave: () => void }) {
         );
       }
       if (frame === 15) {
+        dispatch(completeEvent("Unlocked Mine Purchasing"));
       }
 
       dispatch(advanceFrame());
-      console.log("progress delta is", totalProgress - progressLast.current);
+      console.log(
+        "progress per second is",
+        (totalProgress - progressLast.current) / (timeDelta / 1000)
+      );
       progressLast.current = totalProgress;
       timeLast.current = Date.now();
     };
-    if (Date.now() - timeLast.current > 1000) {
-      updater();
+    const timeDelta = Date.now() - timeLast.current;
+    if (timeDelta > 1000) {
+      updater(timeDelta);
     }
     const interval = setInterval(updater, 1000);
     return () => clearInterval(interval);
@@ -137,5 +142,12 @@ export function GameLoop(props: { autosave: () => void }) {
     timeLast,
   ]);
 
-  return <></>;
+  return (
+    <Container
+      className="fixed-bottom text-end"
+      style={{ width: "100vw", color: "red" }}
+    >
+      Something
+    </Container>
+  );
 }

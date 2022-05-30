@@ -6,9 +6,8 @@
     },
     "prerequisites": {
       "capitalRequirements": {},
-      "tech": [
-        "Engineering I"
-      ]
+      "tech": ["Engineering I"],
+      "events": []
     },
     "description": "Having more scientists multiplies the efforts of research.",
     "display": {
@@ -25,7 +24,8 @@
       "capitalRequirements": {
         "scientists": 10
       },
-      "tech": []
+      "tech": [],
+      "events": []
     },
     "description": "By having more independent research teams, more discoveries can be made in parallel.",
     "display": {
@@ -43,9 +43,8 @@
     },
     "prerequisites": {
       "capitalRequirements": {},
-      "tech": [
-        "Rocketry I"
-      ]
+      "tech": ["Rocketry I"],
+      "events": []
     },
     "description": "Small launch vehicles are good for creating revenue early on. They have less complexity and are cheaper.",
     "display": {
@@ -63,9 +62,8 @@
     },
     "prerequisites": {
       "capitalRequirements": {},
-      "tech": [
-        "Rocketry I", "Engineering I"
-      ]
+      "tech": ["Rocketry I", "Engineering I"],
+      "events": []
     },
     "description": "Heavy launch vehicles are ",
     "display": {

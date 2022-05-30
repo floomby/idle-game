@@ -2,7 +2,8 @@
 ## TODO
 - *market fluctuations and elasticity*
 - *random events*
-- *progression speed metric*
+- *progression speed metric displaying*
+- *improve event keys*
 - improve gameplay
 - think about how mining will work
 - come up with end game idea

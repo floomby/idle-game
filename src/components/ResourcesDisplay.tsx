@@ -116,7 +116,7 @@ export function ResourcesDisplay(props: { modifiers: Modifiers }) {
                     dispatch(
                       purchaseResource([
                         resource as string,
-                        -multiplier / prices[resource as string],
+                        -multiplier,
                       ])
                     );
                   }}
