@@ -37,6 +37,12 @@ export function GameLoop(props: { autosave: () => void }) {
     (state: RootState) => state.tech.progressCounter
   );
   const name = useSelector((state: RootState) => state.player.name);
+  const aluminumMines = useSelector(
+    (state: RootState) => state.capital.values.aluminum_mine
+  );
+  const steelMines = useSelector(
+    (state: RootState) => state.capital.values.steel_mine
+  );
   const dispatch = useDispatch();
 
   const mounted = useRef(false);
@@ -50,6 +56,7 @@ export function GameLoop(props: { autosave: () => void }) {
     }
   }, [totalProgress]);
 
+  // I had a plan for this, I can't remember what it was though
   const [message, setMessage] = useState("");
 
   useEffect(() => {
@@ -63,6 +70,20 @@ export function GameLoop(props: { autosave: () => void }) {
             1000,
         })
       );
+      dispatch(
+        resourceDelta({ aluminum: (aluminumMines[0] * timeDelta) / 1000 })
+      );
+      if (progressable.length > 0) {
+        dispatch(
+          applyProgress({
+            tech: progressable[Math.floor(Math.random() * progressable.length)],
+            progress:
+              (research_director[0] * scientists[0] * 0.001 * timeDelta) / 1000,
+          })
+        );
+      }
+      // Yes, I know, steel is not what is actually mined, it is created by adding small amounts of carbon to iron
+      dispatch(resourceDelta({ steel: (steelMines[0] * timeDelta) / 1000 }));
       if (progressable.length > 0) {
         dispatch(
           applyProgress({
@@ -140,6 +161,8 @@ export function GameLoop(props: { autosave: () => void }) {
     market.prices,
     totalProgress,
     timeLast,
+    aluminumMines,
+    steelMines,
   ]);
 
   return (
@@ -147,7 +170,7 @@ export function GameLoop(props: { autosave: () => void }) {
       className="fixed-bottom text-end"
       style={{ width: "100vw", color: "red" }}
     >
-      Something
+      {message}
     </Container>
   );
 }

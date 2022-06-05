@@ -58,7 +58,7 @@ export function ResourcesDisplay(props: { modifiers: Modifiers }) {
                 {resource === "dollars" ? "$" : `${resource} : `}
                 {resource === "dollars"
                   ? (amount as number).toFixed(2)
-                  : amount}
+                  : (amount as number).toFixed(0)}
               </strong>
             </td>
             <td>

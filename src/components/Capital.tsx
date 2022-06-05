@@ -216,7 +216,7 @@ export function Capital(props: { modifiers: Modifiers }) {
       capitalType,
       isUnlocked(capitalType, tech, events, capital),
     ]);
-  }, [tech, capital]);
+  }, [tech, capital, events]);
 
   return (
     <>

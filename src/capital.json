@@ -70,5 +70,37 @@
       "name": "Heavy launch vehicles",
       "acquire": "Build heavy launch vehicle"
     }
+  },
+  {
+    "name": "aluminum_mine",
+    "cost": {
+      "dollars": 5000
+    },
+    "prerequisites": {
+      "capitalRequirements": {},
+      "tech": ["Metallurgy"],
+      "events": ["Mine Purchased"]
+    },
+    "description": "Aluminum mines are used to produce aluminum.",
+    "display": {
+      "name": "Aluminum mine",
+      "acquire": "Establish aluminum mine"
+    }
+  },
+  {
+    "name": "steel_mine",
+    "cost": {
+      "dollars": 5000
+    },
+    "prerequisites": {
+      "capitalRequirements": {},
+      "tech": ["Metallurgy"],
+      "events": ["Mine Purchased"]
+    },
+    "description": "Steel mines are used to produce steel.",
+    "display": {
+      "name": "Steel mine",
+      "acquire": "Establish steel mine"
+    }
   }
 ]
