@@ -273,6 +273,8 @@ export function App() {
           marginTop: "-9px",
           marginLeft: "-9px",
           float: "left",
+          position: "absolute",
+          ...(gameState.phase === GameStates.Playing ? {} : { zIndex: 1 }),
         }}
       >
         <svg
