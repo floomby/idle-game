@@ -109,8 +109,8 @@ export function TechTree() {
             }) => (
               <>
                 <DefaultNode
-                  fill={tinycolor(color || "#21D4FD")
-                    .darken(40 * progress)
+                  fill={tinycolor(color || "#31E4FE")
+                    .darken(50 * progress)
                     .toString()}
                   onMouseDown={() => {
                     dispatch(
@@ -135,7 +135,7 @@ export function TechTree() {
                     )
                   }
                   onMouseOver={(event: any) =>
-                    handleMouseOver(event, description)
+                    handleMouseOver(event, `${(progress * 100).toFixed(2)}% -- ${description}`)
                   }
                   onMouseOut={hideTooltip}
                 >

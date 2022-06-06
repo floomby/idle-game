@@ -57,7 +57,7 @@
   },
   {
     "name": "Rocketry II",
-    "description": "The square-cube law. Volume increases by the cube of the size of the object whereas surface area increases by the square of the size of the object. Larger rockets leverage this to become more efficient.",
+    "description": "The square-cube law: volume increases by the cube of the size of the object whereas surface area increases by the square of the size of the object. Larger rockets leverage this to become more efficient.",
     "prerequisites": ["Rocketry I"],
     "x": 150,
     "y": 200,

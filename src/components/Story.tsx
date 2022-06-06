@@ -53,7 +53,9 @@ export default function Story(props: { index: number }) {
           opacity: opacity.to({ range: [0.0, 1.0], output: [0, 1] }),
         }}
       >
-        <p className="text-center">{story[index]}</p>
+        <p className="text-center" style={{ color: "white" }}>
+          <strong>{story[index]}</strong>
+        </p>
       </animated.div>
       <div
         style={{ width: "10%", marginLeft: "auto" }}

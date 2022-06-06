@@ -1,14 +1,16 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState, useCallback } from "react";
 import { RootState } from "../store";
 import { useSelector, useDispatch } from "react-redux";
 import { capitalDelta } from "../redux/capitalSlice";
-import { resourceDelta } from "../redux/resourcesSlice";
+import { resourceDelta, updateMarketPressure } from "../redux/resourcesSlice";
 import { advanceFrame, completeEvent } from "../redux/gameStateSlice";
 import { applyProgress } from "../redux/techSlice";
 import { updateMarket } from "../redux/resourcesSlice";
 import { random } from "../common";
 import { addNews } from "../redux/newsSlice";
 import { Container } from "react-bootstrap";
+
+// There is a maintainability problem with the way I am doing this.
 
 // This is not the most efficient way to do this
 export function GameLoop(props: { autosave: () => void }) {
@@ -43,7 +45,26 @@ export function GameLoop(props: { autosave: () => void }) {
   const steelMines = useSelector(
     (state: RootState) => state.capital.values.steel_mine
   );
+  const siliconMines = useSelector(
+    (state: RootState) => state.capital.values.silicon_mine
+  );
   const dispatch = useDispatch();
+
+  const crashResource = useCallback(
+    (resource: string) => {
+      dispatch(
+        updateMarket({
+          [resource]: [
+            market.prices[resource] / 2,
+            market.targets[resource] / 2,
+          ],
+        })
+      );
+      dispatch(updateMarketPressure({ [resource]: 0 }));
+      dispatch(addNews(`The market for ${resource} has crashed!`));
+    },
+    [dispatch, market]
+  );
 
   const mounted = useRef(false);
   const progressLast = useRef(0);
@@ -56,44 +77,31 @@ export function GameLoop(props: { autosave: () => void }) {
     }
   }, [totalProgress]);
 
-  // I had a plan for this, I can't remember what it was though
   const [message, setMessage] = useState("");
 
   useEffect(() => {
     const updater = (timeDeltaArg?: number) => {
-      const timeDelta = timeDeltaArg || Date.now() - timeLast.current;
+      const timeDelta = (timeDeltaArg || Date.now() - timeLast.current) / 1000;
+      // Yes, I know, steel is not what is actually mined, it is created by adding small amounts of carbon to iron
       dispatch(
         resourceDelta({
           dollars:
-            ((light_launch_vehicles[0] + 5 * heavy_launch_vehicles[0]) *
-              timeDelta) /
-            1000,
+            (light_launch_vehicles[0] + 5 * heavy_launch_vehicles[0]) *
+            timeDelta,
+          aluminum: aluminumMines[0] * timeDelta,
+          steel: steelMines[0] * timeDelta,
+          silicon: siliconMines[0] * timeDelta,
         })
       );
-      dispatch(
-        resourceDelta({ aluminum: (aluminumMines[0] * timeDelta) / 1000 })
-      );
       if (progressable.length > 0) {
         dispatch(
           applyProgress({
             tech: progressable[Math.floor(Math.random() * progressable.length)],
-            progress:
-              (research_director[0] * scientists[0] * 0.001 * timeDelta) / 1000,
+            progress: research_director[0] * scientists[0] * 0.001 * timeDelta,
           })
         );
       }
-      // Yes, I know, steel is not what is actually mined, it is created by adding small amounts of carbon to iron
-      dispatch(resourceDelta({ steel: (steelMines[0] * timeDelta) / 1000 }));
-      if (progressable.length > 0) {
-        dispatch(
-          applyProgress({
-            tech: progressable[Math.floor(Math.random() * progressable.length)],
-            progress:
-              (research_director[0] * scientists[0] * 0.001 * timeDelta) / 1000,
-          })
-        );
-      }
-      if (frame % 10 === 0) {
+      if (frame > 0 && frame % 10 === 0) {
         props.autosave();
         dispatch(
           updateMarket(
@@ -129,13 +137,35 @@ export function GameLoop(props: { autosave: () => void }) {
         );
       }
       if (frame === 15) {
+        dispatch(
+          addNews(`${name} announces plans to explore vertical integration`)
+        );
         dispatch(completeEvent("Unlocked Mine Purchasing"));
       }
 
+      Object.entries(market.pressure).forEach(([resource, pressure]) => {
+        if (
+          !completedEvents[`Dumping ${resource}`] &&
+          Math.sqrt(-pressure) * 2 > frame
+        ) {
+          dispatch(completeEvent(`Dumping ${resource}`));
+          dispatch(
+            addNews(
+              `World Trade Organization launches investigation into ${resource} dumping`
+            )
+          );
+        }
+        if (Math.sqrt(-pressure) > frame) {
+          crashResource(resource);
+        }
+      });
+
       dispatch(advanceFrame());
-      console.log(
-        "progress per second is",
-        (totalProgress - progressLast.current) / (timeDelta / 1000)
+      setMessage(
+        `Research/second ${(
+          (totalProgress - progressLast.current) /
+          timeDelta
+        ).toFixed(2)}`
       );
       progressLast.current = totalProgress;
       timeLast.current = Date.now();
@@ -158,17 +188,24 @@ export function GameLoop(props: { autosave: () => void }) {
     tech,
     name,
     props,
-    market.prices,
+    market,
     totalProgress,
     timeLast,
     aluminumMines,
     steelMines,
+    crashResource,
   ]);
 
   return (
     <Container
       className="fixed-bottom text-end"
-      style={{ width: "100vw", color: "red" }}
+      style={{
+        width: "100vw",
+        color: "green",
+        marginBottom: "0.5em",
+        marginRight: "0.2em",
+        zIndex: -1,
+      }}
     >
       {message}
     </Container>

@@ -20,16 +20,14 @@ const initialState: ResourcesState = {
   ),
   market: {
     prices: Object.fromEntries(
-      resourcesData.filter((value) => !!value.startingMarketPrice).map((value) => [
-        value.name,
-        value.startingMarketPrice!,
-      ])
+      resourcesData
+        .filter((value) => !!value.startingMarketPrice)
+        .map((value) => [value.name, value.startingMarketPrice!])
     ),
     targets: Object.fromEntries(
-      resourcesData.filter((value) => !!value.startingMarketPrice).map((value) => [
-        value.name,
-        value.startingMarketPrice!,
-      ])
+      resourcesData
+        .filter((value) => !!value.startingMarketPrice)
+        .map((value) => [value.name, value.startingMarketPrice!])
     ),
     pressure: {},
   },
@@ -56,10 +54,21 @@ export const resourcesSlice = createSlice({
         state.market.pressure[resource] += amount;
       }
     },
-    updateMarket: (state, action: PayloadAction<Record<string, [number, number]>>) => {
+    updateMarket: (
+      state,
+      action: PayloadAction<Record<string, [number, number]>>
+    ) => {
       Object.entries(action.payload).forEach(([key, [price, target]]) => {
         state.market.prices[key] = price;
         state.market.targets[key] = target;
+      });
+    },
+    updateMarketPressure: (
+      state,
+      action: PayloadAction<Record<string, number>>
+    ) => {
+      Object.entries(action.payload).forEach(([key, value]) => {
+        state.market.pressure[key] = value;
       });
     },
     restore: (state, action: PayloadAction<string>) => {
@@ -68,7 +77,7 @@ export const resourcesSlice = createSlice({
   },
 });
 
-export const { resourceDelta, purchaseResource, updateMarket, restore } =
+export const { resourceDelta, purchaseResource, updateMarket, updateMarketPressure, restore } =
   resourcesSlice.actions;
 
 export default resourcesSlice.reducer;

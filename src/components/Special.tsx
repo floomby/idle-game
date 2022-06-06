@@ -22,7 +22,7 @@ export function Special() {
             <tr>
               <td>
                 <span style={{ color: "white" }}>
-                  <strong>Buy Mining Inc.</strong>
+                  <strong>Acquire mining license</strong>
                 </span>
               </td>
               <td>

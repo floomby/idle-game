@@ -194,7 +194,7 @@ export function App() {
 
     if (invalid) return;
 
-    console.log("loaded");
+    // console.log("loaded", resources);
     dispatch(restorePlayer(player!));
     dispatch(restoreResources(resources!));
     dispatch(restoreGameState(gameState!));
@@ -269,7 +269,11 @@ export function App() {
       <Button
         onClick={() => setShow(!show)}
         className="air-button"
-        style={{ marginTop: "-9px", marginLeft: "-9px", float: "left" }}
+        style={{
+          marginTop: "-9px",
+          marginLeft: "-9px",
+          float: "left",
+        }}
       >
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -318,7 +322,9 @@ export function App() {
           <GameLoop autosave={() => save("as")} />
         </Container>
       ) : (
-        <Intro />
+        <Container style={{ margin: "0" }}>
+          <Intro />
+        </Container>
       )}
     </>
   );

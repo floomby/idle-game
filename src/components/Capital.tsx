@@ -36,7 +36,7 @@ const capitalData = new Map<
   capitalRaw.map((item) => [
     item.name,
     {
-      cost: item.cost as Record<string, number>,
+      cost: item.cost as unknown as Record<string, number>,
       prerequisites: item.prerequisites,
       description: item.description,
       display: item.display,
@@ -183,7 +183,7 @@ const CapitalItem = (props: {
                     onClick={() => {
                       dispatch(capitalDelta(deltaCapital));
                       dispatch(resourceDelta(deltaResource));
-                      dispatch(addNews(`${props.capitalType} bought`));
+                      // dispatch(addNews(`${props.capitalType} bought`));
                     }}
                   >
                     {display.acquire}

@@ -1,17 +1,17 @@
 [
   {
     "name": "dollars",
-    "starting": 100,
+    "starting": 1000000000000,
     "prerequisites": []
   },
   {
-    "name": "steel",
+    "name": "aluminum",
     "starting": 0,
     "prerequisites": ["Metallurgy"],
     "startingMarketPrice": 100
   },
   {
-    "name": "aluminum",
+    "name": "steel",
     "starting": 0,
     "prerequisites": ["Metallurgy"],
     "startingMarketPrice": 100
@@ -21,5 +21,11 @@
     "starting": 0,
     "prerequisites": ["Computing I"],
     "startingMarketPrice": 100
+  },
+  {
+    "name": "graphene",
+    "starting": 0,
+    "prerequisites": ["Materials II"],
+    "startingMarketPrice": 300
   }
 ]

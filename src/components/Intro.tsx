@@ -21,7 +21,7 @@ export function Intro() {
     from: { opacity: 0 },
     enter: { opacity: 1 },
     leave: { opacity: 0 },
-    config: springConfig.molasses,
+    config: springConfig.gentle,
   });
 
   // Just to remind myself that this is needed for everything except at the start
@@ -33,7 +33,8 @@ export function Intro() {
     state.phase === GameStates.Naming ? (
       <animated.div
         style={{
-          width: "100%",
+          width: "100vw",
+          left: 0,
           position: "absolute",
           opacity: opacity.to({ range: [0.0, 1.0], output: [0, 1] }),
         }}
@@ -65,6 +66,7 @@ export function Intro() {
       <animated.div
         style={{
           width: "100vw",
+          left: 0,
           position: "absolute",
           opacity: opacity.to({ range: [0.0, 1.0], output: [0, 1] }),
         }}

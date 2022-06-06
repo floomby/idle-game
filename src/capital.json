@@ -61,11 +61,13 @@
       "silicon": 1
     },
     "prerequisites": {
-      "capitalRequirements": {},
+      "capitalRequirements": {
+        "light_launch_vehicles": 10
+      },
       "tech": ["Rocketry I", "Engineering I"],
       "events": []
     },
-    "description": "Heavy launch vehicles are ",
+    "description": "Heavy launch vehicles are workhorses for getting mass into orbit and beyond. They are often advantageous from an operational cost perspective when compared to many smaller launches.",
     "display": {
       "name": "Heavy launch vehicles",
       "acquire": "Build heavy launch vehicle"
@@ -101,6 +103,40 @@
     "display": {
       "name": "Steel mine",
       "acquire": "Establish steel mine"
+    }
+  },
+  {
+    "name": "silicon_mine",
+    "cost": {
+      "dollars": 5000
+    },
+    "prerequisites": {
+      "capitalRequirements": {},
+      "tech": ["Metallurgy"],
+      "events": ["Mine Purchased"]
+    },
+    "description": "Silicon mines are used to produce silicon.",
+    "display": {
+      "name": "Silicon mine",
+      "acquire": "Establish silicon mine"
+    }
+  },
+  {
+    "name": "skyhook",
+    "cost": {
+      "graphene": 50000
+    },
+    "prerequisites": {
+      "capitalRequirements": {
+        "heavy_launch_vehicles": 1
+      },
+      "tech": [],
+      "events": []
+    },
+    "description": "Skyhooks are great tethers hanging from orbital bodies which swing down during orbital perigee and hook hypersonic vehicles flinging them into orbit. This reduces launch costs dramatically.",
+    "display": {
+      "name": "Skyhook",
+      "acquire": "Deploy skyhook"
     }
   }
 ]
