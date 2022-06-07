@@ -1,9 +1,9 @@
 
 ## TODO
-- *elasticity*
+- *need resource depletion*
 - *random events*
-- *progression speed metric displaying*
 - *improve event keys*
+- *higher modifier*
 - improve gameplay
 - come up with end game idea
 

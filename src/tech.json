@@ -13,7 +13,7 @@
     "prerequisites": ["Engineering I"],
     "x": 150,
     "y": 0,
-    "hardness": 10
+    "hardness": 100
   },
   {
     "name": "Computing I",
@@ -29,7 +29,7 @@
     "prerequisites": ["Computing I"],
     "x": 150,
     "y": 100,
-    "hardness": 10
+    "hardness": 250
   },
   {
     "name": "Computing III",
@@ -37,7 +37,7 @@
     "prerequisites": ["Computing II"],
     "x": 300,
     "y": 100,
-    "hardness": 10
+    "hardness": 10000
   },
   {
     "name": "Quantum Computing",
@@ -45,7 +45,7 @@
     "prerequisites": ["Computing III"],
     "x": 450,
     "y": 100,
-    "hardness": 10
+    "hardness": 10000000
   },
   {
     "name": "Rocketry I",
@@ -53,7 +53,7 @@
     "prerequisites": [],
     "x": 0,
     "y": 200,
-    "hardness": 10
+    "hardness": 15
   },
   {
     "name": "Rocketry II",
@@ -61,7 +61,7 @@
     "prerequisites": ["Rocketry I"],
     "x": 150,
     "y": 200,
-    "hardness": 10
+    "hardness": 3000
   },
   {
     "name": "Metallurgy",
@@ -77,7 +77,7 @@
     "prerequisites": ["Metallurgy"],
     "x": 150,
     "y": 400,
-    "hardness": 10
+    "hardness": 400
   },
   {
     "name": "Materials II",
@@ -85,7 +85,7 @@
     "prerequisites": ["Materials I"],
     "x": 300,
     "y": 400,
-    "hardness": 10
+    "hardness": 10000
   },
   {
     "name": "Orbital Infrastructure I",
@@ -93,7 +93,7 @@
     "prerequisites": ["Rocketry II"],
     "x": 300,
     "y": 300,
-    "hardness": 10
+    "hardness": 1000000
   },
   {
     "name": "Orbital Infrastructure II",
@@ -101,7 +101,7 @@
     "prerequisites": ["Orbital Infrastructure I"],
     "x": 450,
     "y": 300,
-    "hardness": 10
+    "hardness": 100000000
   },
   {
     "name": "Fusion",
@@ -109,7 +109,7 @@
     "prerequisites": ["Computing II", "Engineering II"],
     "x": 300,
     "y": 500,
-    "hardness": 10
+    "hardness": 1000000
   },
   {
     "name": "Compact Fusion",
@@ -117,7 +117,7 @@
     "prerequisites": ["Fusion"],
     "x": 450,
     "y": 500,
-    "hardness": 10
+    "hardness": 3000000
   },
   {
     "name": "Aneutronic Fusion",
@@ -125,7 +125,7 @@
     "prerequisites": ["Fusion"],
     "x": 600,
     "y": 600,
-    "hardness": 10
+    "hardness": 40000000
   },
   {
     "name": "Nuclear Transmutation I",
@@ -133,7 +133,7 @@
     "prerequisites": ["Aneutronic Fusion"],
     "x": 600,
     "y": 700,
-    "hardness": 10
+    "hardness": 10000000
   },
   {
     "name": "Nuclear Transmutation II",
@@ -141,7 +141,7 @@
     "prerequisites": ["Nuclear Transmutation I", "Orbital Infrastructure II"],
     "x": 750,
     "y": 700,
-    "hardness": 10
+    "hardness": 50000000
   },
   {
     "name": "Bioengineering I",
@@ -149,7 +149,7 @@
     "prerequisites": [],
     "x": 150,
     "y": 700,
-    "hardness": 10
+    "hardness": 100
   },
   {
     "name": "Bioengineering II",
@@ -157,6 +157,6 @@
     "prerequisites": ["Bioengineering I"],
     "x": 300,
     "y": 700,
-    "hardness": 10
+    "hardness": 500
   }
 ]

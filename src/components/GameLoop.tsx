@@ -86,11 +86,11 @@ export function GameLoop(props: { autosave: () => void }) {
       dispatch(
         resourceDelta({
           dollars:
-            (light_launch_vehicles[0] + 5 * heavy_launch_vehicles[0]) *
+            (light_launch_vehicles[0] * 3 + 15 * heavy_launch_vehicles[0]) *
             timeDelta,
-          aluminum: aluminumMines[0] * timeDelta,
-          steel: steelMines[0] * timeDelta,
-          silicon: siliconMines[0] * timeDelta,
+          aluminum: aluminumMines[0] * timeDelta * 0.1,
+          steel: steelMines[0] * timeDelta * 0.1,
+          silicon: siliconMines[0] * timeDelta * 0.1,
         })
       );
       if (progressable.length > 0) {
@@ -193,6 +193,7 @@ export function GameLoop(props: { autosave: () => void }) {
     timeLast,
     aluminumMines,
     steelMines,
+    siliconMines,
     crashResource,
   ]);
 

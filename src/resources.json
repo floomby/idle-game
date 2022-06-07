@@ -20,7 +20,7 @@
     "name": "silicon",
     "starting": 0,
     "prerequisites": ["Computing I"],
-    "startingMarketPrice": 100
+    "startingMarketPrice": 200
   },
   {
     "name": "graphene",
